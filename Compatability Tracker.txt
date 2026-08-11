@@ -1,0 +1,21 @@
+Bugs to Fix
+Drop inventory on death!
+
+
+
+Features
+Small Chest + Large Chests
+
+
+Express Compatability Tracker
+
+- MoreBuckets for milk: Buckets can be drank out of just like regular milk.
+- Room for Two: Femboys will join you in bed! 
+- Mekanism Tanks: Fluid can be transported in most mods such as Mekanism. 
+
+PLANNED
+- Curios?
+- Baubly Heart canisters 
+- Sophisticated Storage
+- Evilcraft?
+- Big Reactors

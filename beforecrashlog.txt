@@ -1,0 +1,174 @@
+[14:25:04] [Render thread/INFO] [Di.se.di.co.re.op.gl.sh.GlShader/]: Loading shader with type: [35633]
+[14:25:04] [Render thread/INFO] [Di.se.di.co.re.op.gl.sh.GlShader/]: Shader loaded sucessfully.
+[14:25:04] [Render thread/INFO] [Di.se.di.co.re.op.gl.sh.GlShader/]: Loading shader with type: [35632]
+[14:25:04] [Render thread/INFO] [Di.se.di.co.re.op.gl.sh.GlShader/]: Shader loaded sucessfully.
+[14:25:04] [Render thread/INFO] [Di.se.di.co.re.op.gl.sh.GlShader/]: Loading shader with type: [35633]
+[14:25:04] [Render thread/INFO] [Di.se.di.co.re.op.gl.sh.GlShader/]: Shader loaded sucessfully.
+[14:25:04] [Render thread/INFO] [Di.se.di.co.re.op.gl.sh.GlShader/]: Loading shader with type: [35632]
+[14:25:04] [Render thread/INFO] [Di.se.di.co.re.op.gl.sh.GlShader/]: Shader loaded sucessfully.
+[14:25:04] [Render thread/INFO] [xa.hu.mi.MinimapLogs/]: (Minimap) Detected main FBO: 1
+[14:25:04] [Render thread/INFO] [xa.hu.mi.MinimapLogs/]: Reloading radar icon resources...
+[14:25:04] [Render thread/INFO] [xa.hu.mi.MinimapLogs/]: Reloaded radar icon resources!
+[14:25:04] [Server thread/ERROR] [ne.mi.ev.EventBus/EVENTBUS]: Exception caught during firing event: Cannot invoke "java.lang.Integer.intValue()" because the return value of "java.util.Map.getOrDefault(Object, Object)" is null
+	Index: 29
+	Listeners:
+		0: HIGH
+		1: ASM: class dev.architectury.event.forge.EventHandlerImplCommon event(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		2: NORMAL
+		3: ASM: class de.ellpeck.naturesaura.items.tools.ItemArmor$EventHandler update(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		4: ASM: class net.kenddie.fantasyarmor.item.armor.FAArmorEffectHandler onPlayerTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		5: ASM: class com.legacy.structure_gel.core.events.SGClientEvents$ForgeBus clientPlayerTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		6: net.minecraftforge.eventbus.EventBus$$Lambda$2012/0x00000243419fa6f0@39c76bfe
+		7: ASM: me.paulf.fairylights.server.ServerEventHandler@296b513b onTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		8: ASM: class com.leclowndu93150.corpsecurioscompat.event.TickHandler onPlayerTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		9: net.minecraftforge.eventbus.EventBus$$Lambda$2012/0x00000243419fa6f0@229c1a9c
+		10: ASM: mythicbotany.EventListener@7912400 playerTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		11: ASM: class dev.shadowsoffire.placebo.patreon.PatreonPreview tick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		12: ASM: class com.buuz135.industrial.item.infinity.OneThreeFiveHandler onPlayerTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		13: ASM: class net.mcreator.signalflares.world.inventory.ReloadMenu onPlayerTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		14: ASM: class xyz.vsngamer.elevatorid.ElevatorHandler onLivingUpdate(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		15: ASM: class com.blueeagle421.functionality.event.harpoon.OnPlayerTick onPlayerTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		16: ASM: class com.blueeagle421.functionality.event.harpoon.ItemAttractionTicker onPlayerTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		17: ASM: class com.blueeagle421.functionality.event.glowBlessingEffect.VoidProtection onPlayerTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		18: ASM: com.corosus.watut.loader.forge.EventHandlerForge@47346632 onPlayerTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		19: ASM: com.mrcrayfish.framework.event.ForgeEvents@693d67ac onPlayerTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		20: ASM: xaero.lib.common.event.CommonEventsForge@16e9b1b8 playerTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		21: net.minecraftforge.eventbus.EventBus$$Lambda$2012/0x00000243419fa6f0@5631dfc5
+		22: ASM: class com.teammoeg.caupona.CPCommonEvents onPlayerTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		23: ASM: class com.pepper.faunify.event.AnvilRepairHandler onPlayerTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		24: ASM: com.jaquadro.minecraft.storagedrawers.core.PlayerEventListener@4578b129 onPlayerTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		25: ASM: com.mrbysco.measurements.client.ClientHandler@4f400c65 onPlayerTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		26: ASM: class com.minecolonies.core.event.EventHandler onEnteringChunk(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		27: ASM: class ironfurnaces.Config player(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		28: ASM: class com.tiviacz.travelersbackpack.handlers.NeoForgeEventHandler playerTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		29: ASM: class com.enderio.base.common.hangglider.PlayerMovementHandler onPlayerTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		30: ASM: class com.enderio.base.common.block.DarkSteelLadderHandler onTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		31: ASM: xaero.common.events.CommonEventsForge@6f2cca6c handlePlayerTickStart(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		32: ASM: xaero.common.events.ClientEventsForge@313e7bd8 handlePlayerTickEvent(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		33: ASM: xaero.map.events.CommonEventsForge@88a8887 handlePlayerTickStart(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		34: ASM: class com.github.tartaricacid.touhoulittlemaid.event.CapabilityEvent playerTickEvent(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		35: ASM: class com.github.tartaricacid.touhoulittlemaid.debug.target.SendMaidDebugDataEvent onPlayerTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		36: ASM: class cy.jdkdigital.noflyzone.event.EventHandler onPlayerTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		37: ASM: class it.hurts.sskirillss.relics.system.casts.handlers.HUDRenderHandler$GeneralEvents onPlayerTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		38: ASM: class it.hurts.sskirillss.relics.system.casts.handlers.HUDRenderHandler$CastEvents onPlayerTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		39: ASM: class it.hurts.sskirillss.relics.system.casts.handlers.CacheHandler onPlayerTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		40: ASM: class com.aetherteam.aether.event.listeners.EntityListener onRiderTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		41: ASM: class it.hurts.sskirillss.relics.client.handlers.DescriptionHandler onPlayerTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		42: ASM: class com.aetherteam.aether.event.listeners.DimensionListener onPlayerTraveling(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		43: ASM: class net.tropicraft.core.common.item.scuba.ScubaData onPlayerTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		44: ASM: class com.teamabnormals.personality.core.other.PersonalityEvents onPlayerTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		45: ASM: class com.teamabnormals.atmospheric.core.other.AtmosphericClientCompat onPlayerTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		46: ASM: class net.mehvahdjukaar.supplementaries.common.events.forge.ServerEventsForge onPlayerTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		47: net.minecraftforge.eventbus.EventBus$$Lambda$2012/0x00000243419fa6f0@4e2473a1
+		48: net.minecraftforge.eventbus.EventBus$$Lambda$2012/0x00000243419fa6f0@4c3e7900
+		49: net.minecraftforge.eventbus.EventBus$$Lambda$2012/0x00000243419fa6f0@eb4d2e1
+		50: net.minecraftforge.eventbus.EventBus$$Lambda$2012/0x00000243419fa6f0@56a3eb05
+		51: net.minecraftforge.eventbus.EventBus$$Lambda$2012/0x00000243419fa6f0@3b77330b
+		52: net.minecraftforge.eventbus.EventBus$$Lambda$2012/0x00000243419fa6f0@4beab1c
+		53: net.minecraftforge.eventbus.EventBus$$Lambda$2012/0x00000243419fa6f0@2c3542b0
+		54: net.minecraftforge.eventbus.EventBus$$Lambda$2012/0x00000243419fa6f0@65077ff0
+		55: net.minecraftforge.eventbus.EventBus$$Lambda$2012/0x00000243419fa6f0@67eae730
+		56: ASM: de.ellpeck.naturesaura.events.CommonEvents@71cc2ed7 onPlayerTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		57: net.minecraftforge.eventbus.EventBus$$Lambda$2012/0x00000243419fa6f0@167d569a
+		58: ASM: de.ellpeck.naturesaura.renderers.SupporterFancyHandler@656ee6b3 onPlayerTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		59: ASM: org.cyclops.cyclopscore.tracking.Versions@2a9c7e8a onTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		60: ASM: mcjty.rftoolsutility.setup.ForgeEventHandlers@1307389f onPlayerTickEvent(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		61: ASM: dev.gigaherz.toolbelt.slot.BeltExtensionSlot$EventHandlers@db5a8b4 entityTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		62: ASM: mcjty.lib.setup.ModSetup$EventHandler@387ba5a0 onPlayerTickEvent(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		63: net.minecraftforge.eventbus.EventBus$$Lambda$2012/0x00000243419fa6f0@10dba627
+		64: net.minecraftforge.eventbus.EventBus$$Lambda$2012/0x00000243419fa6f0@4efda333
+		65: ASM: mekanism.common.CommonPlayerTickHandler@1837c936 onTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		66: ASM: com.illusivesoulworks.comforts.client.ComfortsClientEventsListener@1f8d3cb5 onTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+		67: net.minecraftforge.eventbus.EventBus$$Lambda$2012/0x00000243419fa6f0@7e9e0ebb
+		68: net.minecraftforge.eventbus.EventBus$$Lambda$2012/0x00000243419fa6f0@22b4e74
+		69: ASM: class net.silentchaos512.lib.util.EntityHelper onWorldTick(Lnet/minecraftforge/event/TickEvent;)V
+		70: ASM: me.lucko.spark.forge.ForgeTickHook@7ad84730 onTick(Lnet/minecraftforge/event/TickEvent;)V
+		71: ASM: me.lucko.spark.forge.ForgeTickReporter@7b5d184f onTick(Lnet/minecraftforge/event/TickEvent;)V
+		72: ASM: me.lucko.spark.forge.ForgeTickHook@1cc78847 onTick(Lnet/minecraftforge/event/TickEvent;)V
+		73: ASM: me.lucko.spark.forge.ForgeTickReporter@56285af5 onTick(Lnet/minecraftforge/event/TickEvent;)V
+		74: LOWEST
+		75: ASM: class cofh.core.common.item.ItemTracker playerTick(Lnet/minecraftforge/event/TickEvent$PlayerTickEvent;)V
+java.lang.NullPointerException: Cannot invoke "java.lang.Integer.intValue()" because the return value of "java.util.Map.getOrDefault(Object, Object)" is null
+	at TRANSFORMER/enderio@6.2.15-beta/com.enderio.base.common.hangglider.PlayerMovementHandler.onPlayerTick(PlayerMovementHandler.java:42)
+	at TRANSFORMER/enderio@6.2.15-beta/com.enderio.base.common.hangglider.__PlayerMovementHandler_onPlayerTick_PlayerTickEvent.invoke(.dynamic)
+	at MC-BOOTSTRAP/net.minecraftforge.eventbus/net.minecraftforge.eventbus.ASMEventHandler.invoke(ASMEventHandler.java:55)
+	at MC-BOOTSTRAP/net.minecraftforge.eventbus/net.minecraftforge.eventbus.EventBus.post(EventBus.java:312)
+	at MC-BOOTSTRAP/net.minecraftforge.eventbus/net.minecraftforge.eventbus.EventBus.post(EventBus.java:298)
+	at TRANSFORMER/forge@47.4.16/net.minecraftforge.event.ForgeEventFactory.onPlayerPreTick(ForgeEventFactory.java:940)
+	at TRANSFORMER/minecraft@1.20.1/net.minecraft.world.entity.player.Player.m_8119_(Player.java:214)
+	at TRANSFORMER/minecraft@1.20.1/net.minecraft.server.level.ServerPlayer.m_9240_(ServerPlayer.java:467)
+	at TRANSFORMER/minecraft@1.20.1/net.minecraft.server.network.ServerGamePacketListenerImpl.m_9933_(ServerGamePacketListenerImpl.java:262)
+	at TRANSFORMER/minecraft@1.20.1/net.minecraft.network.Connection.m_129483_(Connection.java:263)
+	at TRANSFORMER/minecraft@1.20.1/net.minecraft.server.network.ServerConnectionListener.m_9721_(ServerConnectionListener.java:142)
+	at TRANSFORMER/minecraft@1.20.1/net.minecraft.server.MinecraftServer.m_5703_(MinecraftServer.java:907)
+	at TRANSFORMER/minecraft@1.20.1/net.minecraft.server.MinecraftServer.m_5705_(MinecraftServer.java:814)
+	at TRANSFORMER/minecraft@1.20.1/net.minecraft.client.server.IntegratedServer.m_5705_(IntegratedServer.java:89)
+	at TRANSFORMER/minecraft@1.20.1/net.minecraft.server.MinecraftServer.m_130011_(MinecraftServer.java:661)
+	at TRANSFORMER/minecraft@1.20.1/net.minecraft.server.MinecraftServer.m_206580_(MinecraftServer.java:251)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+[14:25:04] [Server thread/ERROR] [minecraft/MinecraftServer]: Encountered an unexpected exception
+net.minecraft.ReportedException: Ticking player
+	at net.minecraft.server.network.ServerConnectionListener.m_9721_(ServerConnectionListener.java:145) ~[client-1.20.1-20230612.114412-srg.jar%231096!/:?] {re:mixin,re:classloading}
+	at net.minecraft.server.MinecraftServer.m_5703_(MinecraftServer.java:907) ~[client-1.20.1-20230612.114412-srg.jar%231096!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:A}
+	at net.minecraft.server.MinecraftServer.m_5705_(MinecraftServer.java:814) ~[client-1.20.1-20230612.114412-srg.jar%231096!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:A}
+	at net.minecraft.client.server.IntegratedServer.m_5705_(IntegratedServer.java:89) ~[client-1.20.1-20230612.114412-srg.jar%231096!/:?] {re:mixin,pl:runtimedistcleaner:A,re:classloading,pl:mixin:APP:modernfix-modernfix.mixins.json:perf.suspend_integrated_server_during_load.IntegratedServerMixin,pl:mixin:APP:modernfix-modernfix.mixins.json:perf.thread_priorities.IntegratedServerMixin,pl:mixin:APP:bobby.mixins.json:IntegratedServerMixin,pl:mixin:APP:lithostitched.mixins.json:client.IntegratedServerMixin,pl:mixin:APP:blueprint.mixins.json:client.IntegratedServerMixin,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.server.MinecraftServer.m_130011_(MinecraftServer.java:661) ~[client-1.20.1-20230612.114412-srg.jar%231096!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:A}
+	at net.minecraft.server.MinecraftServer.m_206580_(MinecraftServer.java:251) ~[client-1.20.1-20230612.114412-srg.jar%231096!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:A}
+	at java.lang.Thread.run(Thread.java:840) ~[?:?] {re:mixin}
+Caused by: java.lang.NullPointerException: Cannot invoke "java.lang.Integer.intValue()" because the return value of "java.util.Map.getOrDefault(Object, Object)" is null
+	at com.enderio.base.common.hangglider.PlayerMovementHandler.onPlayerTick(PlayerMovementHandler.java:42) ~[EnderIO-1.20.1-6.2.15-beta-all.jar%23777!/:6.2.15-beta] {re:mixin,re:classloading}
+	at com.enderio.base.common.hangglider.__PlayerMovementHandler_onPlayerTick_PlayerTickEvent.invoke(.dynamic) ~[EnderIO-1.20.1-6.2.15-beta-all.jar%23777!/:6.2.15-beta] {re:classloading,pl:eventbus:B}
+	at net.minecraftforge.eventbus.ASMEventHandler.invoke(ASMEventHandler.java:55) ~[eventbus-6.2.33.jar%23137!/:?] {re:mixin}
+	at net.minecraftforge.eventbus.EventBus.post(EventBus.java:312) ~[eventbus-6.2.33.jar%23137!/:?] {}
+	at net.minecraftforge.eventbus.EventBus.post(EventBus.java:298) ~[eventbus-6.2.33.jar%23137!/:?] {}
+	at net.minecraftforge.event.ForgeEventFactory.onPlayerPreTick(ForgeEventFactory.java:940) ~[forge-1.20.1-47.4.16-universal.jar%231101!/:?] {re:mixin,re:classloading,pl:mixin:A}
+	at net.minecraft.world.entity.player.Player.m_8119_(Player.java:214) ~[client-1.20.1-20230612.114412-srg.jar%231096!/:?] {re:computing_frames,pl:accesstransformer:B,xf:fml:voidscape:attackstrength,re:mixin,pl:accesstransformer:B,xf:fml:voidscape:attackstrength,re:classloading,pl:accesstransformer:B,xf:fml:voidscape:attackstrength,pl:mixin:APP:baguettelib.mixins.json:PlayerDeathMixin,pl:mixin:APP:forge-badoptimizations.mixins.json:entitydata.MixinPlayer,pl:mixin:APP:darkutils.mixins.json:AccessorPlayer,pl:mixin:APP:darkutils.mixins.json:MixinPlayer,pl:mixin:APP:botania_xplat.mixins.json:PlayerMixin,pl:mixin:APP:alltheleaks.mixins.json:main.PlayerMixin,pl:mixin:APP:notenoughanimations.mixins.json:PlayerEntityMixin,pl:mixin:APP:adastra-common.mixins.json:common.PlayerMixin,pl:mixin:APP:baguettelib.mixins.json:PlayerEquipmentMixin,pl:mixin:APP:hangglider.common.mixins.json:PlayerMixin,pl:mixin:APP:touhou_little_maid.mixins.json:PlayerMixin,pl:mixin:APP:ironladders.mixins.json:PlayerMixin,pl:mixin:APP:skinlayers3d.mixins.json:PlayerMixin,pl:mixin:APP:playerAnimator-common.mixins.json:PlayerEntityMixin,pl:mixin:APP:faunify.mixins.json:PlayerShoulderExclusivityMixin,pl:mixin:APP:faunify.mixins.json:client.PlayerShoulderMixin,pl:mixin:APP:fabric-entity-events-v1.mixins.json:PlayerEntityMixin,pl:mixin:APP:fabric-entity-events-v1.mixins.json:elytra.PlayerEntityMixin,pl:mixin:APP:mixins.travelersbackpack.json:PlayerMixin,pl:mixin:APP:bettercombat.mixins.json:PlayerEntityAccessor,pl:mixin:APP:bettercombat.mixins.json:PlayerEntityMixin,pl:mixin:APP:aether.mixins.json:common.PlayerMixin,pl:mixin:APP:aether.mixins.json:common.accessor.PlayerAccessor,pl:mixin:APP:cheaplighting.mixins.json:lightsource.PlayerEntityMixin,pl:mixin:APP:simplymore.mixins.json:PlayerEntityMixin,pl:mixin:APP:comforts.mixins.json:AccessorPlayer,pl:mixin:APP:personality.mixins.json:PlayerMixin,pl:mixin:APP:supplementaries-common.mixins.json:PlayerMixin,pl:mixin:APP:supplementaries.mixins.json:PlayerProjectileMixin,pl:mixin:APP:expandability-common.mixins.json:swimming.PlayerMixin,pl:mixin:APP:kubejs-common.mixins.json:PlayerMixin,pl:mixin:A}
+	at net.minecraft.server.level.ServerPlayer.m_9240_(ServerPlayer.java:467) ~[client-1.20.1-20230612.114412-srg.jar%231096!/:?] {re:mixin,pl:accesstransformer:B,re:computing_frames,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:betterendisland.mixins.json:ServerPlayerMixin,pl:mixin:APP:baguettelib.mixins.json:ServerPlayerDeathMixin,pl:mixin:APP:passengersportalfix.mixins.json:ServerPlayerLMixin,pl:mixin:APP:passengersportalfix_platform.mixins.json:ServerPlayerLMixin,pl:mixin:APP:modernfix-modernfix.mixins.json:perf.remove_spawn_chunks.ServerPlayerMixin,pl:mixin:APP:yungsapi.mixins.json:ServerPlayerEntityTickMixin,pl:mixin:APP:ldlib-common.mixins.json:accessor.ServerPlayerAccessor,pl:mixin:APP:revampedwolf.mixins.json:server.ServerPlayerMixin,pl:mixin:APP:lapisreserve.mixins.json:ServerPlayerReserve,pl:mixin:APP:botania_xplat.mixins.json:ServerPlayerMixin,pl:mixin:APP:fabric-screen-handler-api-v1.mixins.json:ServerPlayerEntityMixin,pl:mixin:APP:potionvapes.mixins.json:ServerPlayerMixin,pl:mixin:APP:alltheleaks.mixins.json:main.ServerPlayerMixin,pl:mixin:APP:adastra-common.mixins.json:common.radio.ServerPlayerMixin,pl:mixin:APP:xaerolib.mixins.json:MixinServerPlayer,pl:mixin:APP:fabric-entity-events-v1.mixins.json:ServerPlayerEntityMixin,pl:mixin:APP:glitchcore.forge.mixins.json:MixinServerPlayer,pl:mixin:APP:xaerohud.mixins.json:MixinServerPlayer,pl:mixin:APP:netherportalfix.mixins.json:ServerPlayerMixin,pl:mixin:APP:netherportalfix.mixins.json:ForgeServerPlayerMixin,pl:mixin:APP:xaeroworldmap.mixins.json:MixinServerPlayer,pl:mixin:APP:simplybows.mixins.json:ServerPlayerEntityMixin,pl:mixin:APP:simplyswords-common.mixins.json:ServerPlayerEntityMixin,pl:mixin:APP:kubejs-common.mixins.json:ServerPlayerMixin,pl:mixin:APP:betterdeserttemples.mixins.json:ServerPlayerTickMixin,pl:mixin:APP:DistantHorizons.forge.mixins.json:server.MixinServerPlayer,pl:mixin:APP:moonlight-common.mixins.json:ServerPlayerMixin,pl:mixin:APP:collective_forge.mixins.json:ServerPlayerMixin,pl:mixin:A}
+	at net.minecraft.server.network.ServerGamePacketListenerImpl.m_9933_(ServerGamePacketListenerImpl.java:262) ~[client-1.20.1-20230612.114412-srg.jar%231096!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:fabric-networking-api-v1.mixins.json:ServerPlayNetworkHandlerMixin,pl:mixin:APP:modernfix-modernfix.mixins.json:bugfix.forge_vehicle_packets.ServerGamePacketListenerImplMixin,pl:mixin:APP:logprot.mixins.json:ServerGamePacketListenerImplMixin,pl:mixin:APP:alltheleaks.mixins.json:main.ServerPlayNetworkHandlerMixinSquared,pl:mixin:APP:adastra-common.mixins.json:common.ServerGamePacketListenerImplMixin,pl:mixin:APP:baguettelib.mixins.json:PacketHandlerMixin,pl:mixin:APP:baguettelib.mixins.json:PlayerAbilitiesPacketMixin,pl:mixin:APP:hangglider.common.mixins.json:accessor.ServerGamePacketListenerImplAccessor,pl:mixin:APP:bettercombat.mixins.json:ServerPlayNetworkHandlerMixin,pl:mixin:APP:mixins/common/nochatreports.mixins.json:server.MixinServerGamePacketListenerImpl,pl:mixin:APP:aether.mixins.json:common.accessor.ServerGamePacketListenerImplAccessor,pl:mixin:APP:dragonmounts.mixins.json:EnsureSafeFlyingVehicleMixin,pl:mixin:APP:fabric-networking-api-v1.mixins.json:accessor.ServerPlayNetworkHandlerAccessor,pl:mixin:APP:voidtotem.mixins.json:ServerGamePacketListenerImplAccessor,pl:mixin:APP:quark.mixins.json:accessor.AccessorServerGamePacketListener,pl:mixin:APP:supplementaries-common.mixins.json:ServerGamePacketListenerMixin,pl:mixin:APP:packetfixer.v1_19_4.forge.mixins.json:v1_19_4_forge.ServerGamePacketListenerImplMixin,pl:mixin:A}
+	at net.minecraft.network.Connection.m_129483_(Connection.java:263) ~[client-1.20.1-20230612.114412-srg.jar%231096!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:A}
+	at net.minecraft.server.network.ServerConnectionListener.m_9721_(ServerConnectionListener.java:142) ~[client-1.20.1-20230612.114412-srg.jar%231096!/:?] {re:mixin,re:classloading}
+	... 6 more
+[14:25:04] [Server thread/FATAL] [ne.mi.co.ForgeMod/]: Preparing crash report with UUID 79e82f91-257a-461e-8a81-638b263554ae
+[14:25:05] [Server thread/ERROR] [minecraft/MinecraftServer]: This crash report has been saved to: C:\Users\epici\AppData\Roaming\PrismLauncher\instances\RatPack 2.4 -TestClient\minecraft\crash-reports\crash-2026-08-09_14.25.04-server.txt
+[14:25:05] [Server thread/INFO] [minecraft/MinecraftServer]: Stopping server
+[14:25:05] [Server thread/INFO] [minecraft/MinecraftServer]: Saving players
+[14:25:06] [ForkJoinPool.commonPool-worker-8/ERROR] [ne.mi.ev.EventSubclassTransformer/EVENTBUS]: Could not find parent org/luaj/vm2/lib/VarArgFunction for class org/figuramc/figura/lua/FiguraLuaRuntime$4 in classloader jdk.internal.loader.ClassLoaders$AppClassLoader@511d50c0 on thread Thread[ForkJoinPool.commonPool-worker-8,4,SERVER]
+[14:25:06] [ForkJoinPool.commonPool-worker-8/ERROR] [ne.mi.ev.EventSubclassTransformer/EVENTBUS]: An error occurred building event handler
+java.lang.ClassNotFoundException: org.luaj.vm2.lib.VarArgFunction
+	at jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641) ~[?:?] {}
+	at jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188) ~[?:?] {}
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:525) ~[?:?] {re:mixin}
+	at net.minecraftforge.eventbus.EventSubclassTransformer.buildEvents(EventSubclassTransformer.java:75) ~[eventbus-6.2.33.jar:?] {}
+	at net.minecraftforge.eventbus.EventSubclassTransformer.transform(EventSubclassTransformer.java:31) ~[eventbus-6.2.33.jar:?] {}
+	at net.minecraftforge.eventbus.EventBusEngine.processClass(EventBusEngine.java:30) ~[eventbus-6.2.33.jar:?] {}
+	at net.minecraftforge.eventbus.service.ModLauncherService.processClassWithFlags(ModLauncherService.java:36) ~[eventbus-6.2.33.jar:6.2.33] {}
+	at cpw.mods.modlauncher.LaunchPluginHandler.offerClassNodeToPlugins(LaunchPluginHandler.java:88) ~[modlauncher-10.0.9.jar:?] {}
+	at cpw.mods.modlauncher.ClassTransformer.transform(ClassTransformer.java:120) ~[modlauncher-10.0.9.jar:?] {}
+	at cpw.mods.modlauncher.TransformingClassLoader.maybeTransformClassBytes(TransformingClassLoader.java:50) ~[modlauncher-10.0.9.jar:?] {}
+	at cpw.mods.cl.ModuleClassLoader.readerToClass(ModuleClassLoader.java:113) ~[securejarhandler-2.1.10.jar:?] {}
+	at cpw.mods.cl.ModuleClassLoader.lambda$findClass$15(ModuleClassLoader.java:219) ~[securejarhandler-2.1.10.jar:?] {}
+	at cpw.mods.cl.ModuleClassLoader.loadFromModule(ModuleClassLoader.java:229) ~[securejarhandler-2.1.10.jar:?] {}
+	at cpw.mods.cl.ModuleClassLoader.findClass(ModuleClassLoader.java:219) ~[securejarhandler-2.1.10.jar:?] {}
+	at cpw.mods.cl.ModuleClassLoader.loadClass(ModuleClassLoader.java:135) ~[securejarhandler-2.1.10.jar:?] {}
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:525) ~[?:?] {re:mixin}
+	at org.figuramc.figura.avatar.Avatar.createLuaRuntime(Avatar.java:1045) ~[?:?] {re:mixin,re:classloading}
+	at org.figuramc.figura.avatar.Avatar.lambda$load$1(Avatar.java:227) ~[?:?] {re:mixin,re:classloading}
+	at java.util.concurrent.CompletableFuture.uniRunNow(CompletableFuture.java:819) ~[?:?] {re:mixin}
+	at java.util.concurrent.CompletableFuture.uniRunStage(CompletableFuture.java:803) ~[?:?] {re:mixin}
+	at java.util.concurrent.CompletableFuture.thenRun(CompletableFuture.java:2195) ~[?:?] {re:mixin}
+	at org.figuramc.figura.avatar.Avatar.load(Avatar.java:191) ~[?:?] {re:mixin,re:classloading}
+	at org.figuramc.figura.avatar.UserData.loadAvatar(UserData.java:40) ~[?:?] {re:classloading}
+	at org.figuramc.figura.avatar.local.CacheAvatarLoader.lambda$load$1(CacheAvatarLoader.java:62) ~[?:?] {re:classloading}
+	at java.util.concurrent.CompletableFuture$AsyncRun.run(CompletableFuture.java:1804) ~[?:?] {}
+	at java.util.concurrent.CompletableFuture$AsyncRun.exec(CompletableFuture.java:1796) ~[?:?] {}
+	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:373) ~[?:?] {}
+	at java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1182) ~[?:?] {}
+	at java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1655) ~[?:?] {re:mixin,re:computing_frames}
+	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1622) ~[?:?] {re:mixin,re:computing_frames}
+	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165) ~[?:?] {re:mixin}
+[14:25:06] [ForkJoinPool.commonPool-worker-8/ERROR] [ne.mi.ev.EventSubclassTransformer/EVENTBUS]: Could not find parent org/luaj/vm2/lib/LibFunction for class org/luaj/vm2/lib/TwoArgFunction in classloader jdk.internal.loader.ClassLoaders$AppClassLoader@511d50c0 on thread Thread[ForkJoinPool.commonPool-worker-8,4,SERVER]
+[14:25:06] [Render thread/FATAL] [ne.mi.co.ForgeMod/]: Preparing crash report with UUID 1bcd1d14-c659-44bc-9b70-b5fd00317a08
+[14:25:06] [Render thread/INFO] [STDOUT/]: [net.minecraft.server.Bootstrap:m_135875_:151]: ---- Minecraft Crash Report ----
+// Hey, that tickles! Hehehe!
+Time: 2026-08-09 14:25:06
+Description: Ticking player

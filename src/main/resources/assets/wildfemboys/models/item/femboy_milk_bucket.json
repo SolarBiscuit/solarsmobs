@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "wildfemboys:item/femboy_milk_bucket"
+  }
+}
