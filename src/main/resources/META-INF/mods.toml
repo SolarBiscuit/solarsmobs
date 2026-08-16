@@ -1,7 +1,7 @@
 modLoader="javafml"
 loaderVersion="${loader_version_range}"
 license="${mod_license}"
-issueTrackerURL="https://github.com/yourname/wildfemboys/issues"
+issueTrackerURL="https://github.com/SolarBiscuit/solarsmobs"
 
 [[mods]]
 modId="${mod_id}"
@@ -9,7 +9,7 @@ version="${mod_version}"
 displayName="${mod_name}"
 authors="${mod_authors}"
 description='''
-Find tamable wild femboys out in the overworld.
+Find unique mobs of all kinds in the overworld
 '''
 logoFile="icon.png"
 displayTest = "IGNORE_ALL_VERSION"
