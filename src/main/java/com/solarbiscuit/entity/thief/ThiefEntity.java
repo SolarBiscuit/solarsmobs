@@ -24,6 +24,7 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -88,7 +89,7 @@ public class ThiefEntity extends Monster {
         RandomSource random = this.getRandom();
         setSkinIndex(random.nextInt(MAX_SKINS));
         equipRandomChainmail(random);
-        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
+        equipRandomWeapon(random);
         this.setDropChance(EquipmentSlot.MAINHAND, 0.085F);
         for (EquipmentSlot slot : new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET}) {
             this.setDropChance(slot, 0.085F);
@@ -104,7 +105,16 @@ public class ThiefEntity extends Monster {
         maybeEquip(EquipmentSlot.FEET, Items.CHAINMAIL_BOOTS, random);
     }
 
-    private void maybeEquip(EquipmentSlot slot, net.minecraft.world.item.Item item, RandomSource random) {
+    private void equipRandomWeapon(RandomSource random) {
+        Item weapon = switch (random.nextInt(3)) {
+            case 0 -> Items.WOODEN_SWORD;
+            case 1 -> Items.STONE_SWORD;
+            default -> Items.STONE_AXE;
+        };
+        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(weapon));
+    }
+
+    private void maybeEquip(EquipmentSlot slot, Item item, RandomSource random) {
         if (random.nextBoolean()) {
             this.setItemSlot(slot, new ItemStack(item));
         }

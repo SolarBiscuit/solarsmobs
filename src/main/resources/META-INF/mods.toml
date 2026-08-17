@@ -37,3 +37,11 @@ displayTest = "IGNORE_ALL_VERSION"
     versionRange="[5.4,)"
     ordering="NONE"
     side="BOTH"
+
+# Optional Simple Hats — common hat bags drop from this mod's mobs when present
+[[dependencies.${mod_id}]]
+    modId="simplehats"
+    mandatory=false
+    versionRange="[0,)"
+    ordering="NONE"
+    side="BOTH"

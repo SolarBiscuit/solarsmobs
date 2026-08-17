@@ -3,29 +3,54 @@
   "pools": [
     {
       "rolls": 1,
+      "bonus_rolls": 0,
+      "conditions": [
+        {
+          "condition": "minecraft:random_chance",
+          "chance": 0.3
+        }
+      ],
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:emerald",
-          "weight": 1,
+          "name": "minecraft:iron_ingot",
           "functions": [
             {
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 0,
+                "min": 1,
                 "max": 2
-              }
-            },
-            {
-              "function": "minecraft:looting_enchant",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 0,
-                "max": 1
-              }
+              },
+              "add": false
             }
           ]
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "bonus_rolls": 0,
+      "conditions": [
+        {
+          "condition": "minecraft:random_chance",
+          "chance": 0.002
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "solarsmobs:thieves_guild_necklace"
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "bonus_rolls": 0,
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "name": "solarsmobs:entities/shared"
         }
       ]
     }
