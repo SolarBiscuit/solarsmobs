@@ -1,0 +1,20 @@
+{
+  "display": {
+    "icon": { "item": "solarsmobs:femboy_spawn_egg" },
+    "title": { "translate": "advancements.solarsmobs.tamed.title" },
+    "description": { "translate": "advancements.solarsmobs.tamed.description" },
+    "frame": "task",
+    "background": "minecraft:textures/gui/advancements/backgrounds/dirt.png",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "tamed_femboy": {
+      "trigger": "minecraft:tame_animal",
+      "conditions": {
+        "entity": { "type": "solarsmobs:femboy" }
+      }
+    }
+  }
+}

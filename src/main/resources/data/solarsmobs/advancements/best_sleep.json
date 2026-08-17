@@ -1,0 +1,18 @@
+{
+  "parent": "solarsmobs:tamed_femboy",
+  "display": {
+    "icon": { "item": "minecraft:red_bed" },
+    "title": { "translate": "advancements.solarsmobs.best_sleep.title" },
+    "description": { "translate": "advancements.solarsmobs.best_sleep.description" },
+    "frame": "task",
+    "background": "minecraft:textures/gui/advancements/backgrounds/dirt.png",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "slept_together": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

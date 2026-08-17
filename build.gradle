@@ -6,7 +6,7 @@ plugins {
 }
 
 // UPDATE THIS: These reference variables defined in your gradle.properties file.
-// Make sure gradle.properties has: mod_id=wildfemboys, mod_group_id=com.solarbiscuit, mod_version=1.0.0
+// Make sure gradle.properties has: mod_id=solarsmobs, mod_group_id=com.solarbiscuit, mod_version=1.0.0
 version = "${mod_version}"
 group = "${mod_group_id}"
 
@@ -66,13 +66,18 @@ minecraft {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
-    // Put external mod maven repositories here if you ever add dependencies
+    maven {
+        name = "Illusive Soulworks"
+        url = "https://maven.theillusivec4.top/"
+    }
 }
 
 dependencies {
-    // UPDATE THIS: Standard Forge dependency setup for 1.20.1
-    // Make sure minecraft_version=1.20.1 and forge_version=47.3.0 in gradle.properties
     minecraft "net.minecraftforge:forge:1.20.1-47.4.16"
+
+    // Curios API (Forge 1.20.1) — https://docs.illusivesoulworks.com/category/curios
+    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}:api")
+    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
 }
 
 tasks.named('processResources', ProcessResources).configure {
@@ -100,7 +105,7 @@ tasks.named('jar', Jar).configure {
     manifest {
         attributes([
                 // UPDATE THIS: String values must be wrapped in quotes " "
-                'Specification-Title'     : 'wildfemboys',
+                'Specification-Title'     : 'solarsmobs',
                 'Specification-Vendor'    : 'SolarBiscuit',
                 'Specification-Version'   : '1',
                 'Implementation-Title'    : project.name,

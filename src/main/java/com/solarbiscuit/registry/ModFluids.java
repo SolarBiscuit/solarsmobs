@@ -1,6 +1,6 @@
 package com.solarbiscuit.registry;
 
-import com.solarbiscuit.WildFemboys;
+import com.solarbiscuit.SolarsMobs;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.registries.DeferredRegister;
@@ -10,12 +10,12 @@ import net.minecraft.world.level.material.Fluid;
 
 public class ModFluids {
     // Registering the Type (Physics of the liquid) and the Fluid itself
-    public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(ForgeRegistries.Keys.FLUID_TYPES, WildFemboys.MOD_ID);
-    public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, WildFemboys.MOD_ID);
+    public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(ForgeRegistries.Keys.FLUID_TYPES, SolarsMobs.MOD_ID);
+    public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, SolarsMobs.MOD_ID);
 
 public static final RegistryObject<FluidType> FEMBOY_MILK_TYPE = FLUID_TYPES.register("femboy_milk", 
             () -> new FluidType(FluidType.Properties.create()
-                    .descriptionId("fluid.wildfemboys.femboy_milk")
+                    .descriptionId("fluid.solarsmobs.femboy_milk")
                     .density(1024)
                     .viscosity(1024)) {
                 

@@ -1,6 +1,6 @@
 package com.solarbiscuit.registry;
 
-import com.solarbiscuit.WildFemboys;
+import com.solarbiscuit.SolarsMobs;
 import com.solarbiscuit.registry.ModFluids;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -13,7 +13,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
-@Mod.EventBusSubscriber(modid = WildFemboys.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+@Mod.EventBusSubscriber(modid = SolarsMobs.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ModEvents {
 
     // Allows instant drinking from any modded fluid container via standard right-click
