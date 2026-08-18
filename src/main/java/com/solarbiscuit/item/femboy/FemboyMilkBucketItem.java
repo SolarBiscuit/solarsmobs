@@ -35,8 +35,8 @@ public class FemboyMilkBucketItem extends BucketItem {
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entityLiving) {
         if (!level.isClientSide) {
-            // Adds Absorption I for 1.5 minutes (1800 ticks)
-            entityLiving.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 1800, 0));
+            // Adds Absorption I for 60 seconds (1200 ticks)
+            entityLiving.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 1200, 0));
             // Cures effects exactly the same way vanilla milk does
             entityLiving.curePotionEffects(new ItemStack(Items.MILK_BUCKET));
         }

@@ -1,5 +1,5 @@
 {
-  "parent": "solarsmobs:tamed_femboy",
+  "parent": "solarsmobs:femboy/tamed",
   "display": {
     "icon": { "item": "solarsmobs:femboy_milk_bucket" },
     "title": { "translate": "advancements.solarsmobs.milked.title" },

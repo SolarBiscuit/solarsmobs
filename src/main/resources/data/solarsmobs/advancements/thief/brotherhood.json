@@ -1,0 +1,17 @@
+{
+  "parent": "solarsmobs:thief/not_today",
+  "display": {
+    "icon": { "item": "solarsmobs:thieves_guild_necklace" },
+    "title": { "translate": "advancements.solarsmobs.brotherhood.title" },
+    "description": { "translate": "advancements.solarsmobs.brotherhood.description" },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "near_thief": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

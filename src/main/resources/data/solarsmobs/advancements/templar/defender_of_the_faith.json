@@ -1,0 +1,17 @@
+{
+  "parent": "solarsmobs:templar/holy_war",
+  "display": {
+    "icon": { "item": "solarsmobs:holy_cross" },
+    "title": { "translate": "advancements.solarsmobs.defender.title" },
+    "description": { "translate": "advancements.solarsmobs.defender.description" },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "near_templar": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

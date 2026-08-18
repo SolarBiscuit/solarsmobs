@@ -1,0 +1,17 @@
+{
+  "display": {
+    "icon": { "item": "solarsmobs:holy_cross" },
+    "title": { "translate": "advancements.solarsmobs.root.title" },
+    "description": { "translate": "advancements.solarsmobs.root.description" },
+    "frame": "task",
+    "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "tick": {
+      "trigger": "minecraft:tick"
+    }
+  }
+}

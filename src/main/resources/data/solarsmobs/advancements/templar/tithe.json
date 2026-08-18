@@ -1,0 +1,17 @@
+{
+  "parent": "solarsmobs:templar/defender_of_the_faith",
+  "display": {
+    "icon": { "item": "minecraft:gold_ingot" },
+    "title": { "translate": "advancements.solarsmobs.tithe.title" },
+    "description": { "translate": "advancements.solarsmobs.tithe.description" },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "gave_gold": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

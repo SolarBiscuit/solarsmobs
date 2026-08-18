@@ -55,7 +55,7 @@ public class ModLootHandler {
                 .name("solarsmobs_simplyhats")
                 .setRolls(ConstantValue.exactly(1.0F))
                 .add(LootItem.lootTableItem(hatbag)
-                        .when(LootItemRandomChanceCondition.randomChance(0.02F)))
+                        .when(LootItemRandomChanceCondition.randomChance(0.10F)))
                 .build());
     }
 }

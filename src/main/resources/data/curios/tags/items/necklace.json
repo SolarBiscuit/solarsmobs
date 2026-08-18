@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "solarsmobs:thieves_guild_necklace"
+    "solarsmobs:thieves_guild_necklace",
+    "solarsmobs:holy_cross"
   ]
 }

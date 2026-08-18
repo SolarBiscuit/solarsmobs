@@ -3,6 +3,7 @@ package com.solarbiscuit.client;
 import com.solarbiscuit.SolarsMobs;
 import com.solarbiscuit.client.femboy.FemboyRenderer;
 import com.solarbiscuit.client.femboy.FemboyScreen;
+import com.solarbiscuit.client.templar.TemplarRenderer;
 import com.solarbiscuit.client.thief.ThiefRenderer;
 import com.solarbiscuit.registry.ModEntities;
 import com.solarbiscuit.registry.ModMenuTypes;
@@ -25,5 +26,6 @@ public class ClientEvents {
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntities.FEMBOY.get(), FemboyRenderer::new);
         event.registerEntityRenderer(ModEntities.THIEF.get(), ThiefRenderer::new);
+        event.registerEntityRenderer(ModEntities.TEMPLAR.get(), TemplarRenderer::new);
     }
 }

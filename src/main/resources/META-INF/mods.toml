@@ -45,3 +45,11 @@ displayTest = "IGNORE_ALL_VERSION"
     versionRange="[0,)"
     ordering="NONE"
     side="BOTH"
+
+# Optional Simply Swords — Templars can spawn with iron longswords and rapiers
+[[dependencies.${mod_id}]]
+    modId="simplyswords"
+    mandatory=false
+    versionRange="[0,)"
+    ordering="NONE"
+    side="BOTH"

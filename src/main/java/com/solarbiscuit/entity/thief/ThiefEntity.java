@@ -2,6 +2,7 @@ package com.solarbiscuit.entity.thief;
 
 import com.solarbiscuit.faction.Faction;
 import com.solarbiscuit.faction.FactionRelations;
+import com.solarbiscuit.faction.Factioned;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -31,7 +32,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import org.jetbrains.annotations.Nullable;
 
-public class ThiefEntity extends Monster {
+public class ThiefEntity extends Monster implements Factioned {
     public static final int MAX_SKINS = 9;
 
     private static final EntityDataAccessor<Integer> DATA_SKIN =
@@ -41,6 +42,7 @@ public class ThiefEntity extends Monster {
         super(type, level);
     }
 
+    @Override
     public Faction getFaction() {
         return Faction.EVIL;
     }

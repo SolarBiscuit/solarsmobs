@@ -8,6 +8,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.OwnableEntity;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 
 import java.util.UUID;
 
@@ -18,12 +19,30 @@ public final class FactionRelations {
     private FactionRelations() {}
 
     public static boolean hasThievesGuildProtection(LivingEntity entity) {
-        return CuriosCompat.isEquipped(entity, ModItems.THIEVES_GUILD_NECKLACE.get());
+        Item necklace = ModItems.THIEVES_GUILD_NECKLACE.get();
+        return isHolding(entity, necklace) || CuriosCompat.isEquipped(entity, necklace);
+    }
+
+    public static boolean hasHolyCross(LivingEntity entity) {
+        return isHolding(entity, ModItems.HOLY_CROSS.get())
+                || CuriosCompat.isEquipped(entity, ModItems.HOLY_CROSS.get());
+    }
+
+    private static boolean isHolding(LivingEntity entity, Item item) {
+        return entity.getMainHandItem().is(item) || entity.getOffhandItem().is(item);
     }
 
     /** Evil thieves ignore necklace wearers until provoked. */
     public static boolean thiefShouldHuntPlayer(Player player) {
         return !hasThievesGuildProtection(player);
+    }
+
+    public static boolean isHolyFoe(LivingEntity target) {
+        if (!(target instanceof Factioned factioned)) {
+            return false;
+        }
+        Faction faction = factioned.getFaction();
+        return faction == Faction.EVIL || faction == Faction.DEMONIC;
     }
 
     public static boolean sameOwner(LivingEntity a, LivingEntity b) {

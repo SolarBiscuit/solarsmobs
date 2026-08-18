@@ -1,6 +1,7 @@
 package com.solarbiscuit.registry;
 
 import com.solarbiscuit.SolarsMobs;
+import com.solarbiscuit.item.HolyCrossItem;
 import com.solarbiscuit.item.ThievesGuildNecklaceItem;
 import com.solarbiscuit.item.femboy.FemboyMilkBucketItem;
 import net.minecraft.world.item.Item;
@@ -18,4 +19,7 @@ public class ModItems {
 
     public static final RegistryObject<Item> THIEVES_GUILD_NECKLACE = ITEMS.register("thieves_guild_necklace",
             () -> new ThievesGuildNecklaceItem(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
+
+    public static final RegistryObject<Item> HOLY_CROSS = ITEMS.register("holy_cross",
+            () -> new HolyCrossItem(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
 }

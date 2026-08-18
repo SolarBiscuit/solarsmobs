@@ -12,11 +12,11 @@ import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.resources.ResourceLocation;
 
-public class FemboyRenderer extends HumanoidMobRenderer<FemboyEntity, HumanoidModel<FemboyEntity>> {
+public class FemboyRenderer extends HumanoidMobRenderer<FemboyEntity, FemboyModel> {
     private static final HumanoidSkinTextures SKINS = new HumanoidSkinTextures("femboy");
 
     public FemboyRenderer(EntityRendererProvider.Context context) {
-        super(context, new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER)), 0.5F);
+        super(context, new FemboyModel(context.bakeLayer(ModelLayers.PLAYER)), 0.5F);
         this.addLayer(new ItemInHandLayer<>(this, context.getItemInHandRenderer()));
         this.addLayer(new HumanoidArmorLayer<>(this,
                 new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)),
@@ -26,9 +26,16 @@ public class FemboyRenderer extends HumanoidMobRenderer<FemboyEntity, HumanoidMo
 
     @Override
     public void render(FemboyEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
-        // Forces the visual model to crouch without changing the hitbox.
-        this.model.crouching = entity.isOrderedToSit();
+        this.model.crouching = false;
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
+    }
+
+    @Override
+    protected void setupRotations(FemboyEntity entity, PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTicks) {
+        super.setupRotations(entity, poseStack, ageInTicks, rotationYaw, partialTicks);
+        if (entity.isInSittingPose()) {
+            poseStack.translate(0.0D, -0.55D, 0.0D);
+        }
     }
 
     @Override

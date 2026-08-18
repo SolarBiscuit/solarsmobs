@@ -1,10 +1,15 @@
 package com.solarbiscuit.entity.femboy;
 
+import com.solarbiscuit.advancement.ModAdvancements;
+import com.solarbiscuit.faction.Faction;
 import com.solarbiscuit.faction.FactionRelations;
+import com.solarbiscuit.faction.Factioned;
 import com.solarbiscuit.inventory.femboy.FemboyMenu;
 import com.solarbiscuit.registry.ModEntities;
 import com.solarbiscuit.registry.ModFluids;
+import com.solarbiscuit.util.NameLists;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
@@ -30,22 +35,25 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BedBlock;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.EnumSet;
 
-public class FemboyEntity extends TamableAnimal {
+public class FemboyEntity extends TamableAnimal implements Factioned {
     private SimpleContainer inventory = new SimpleContainer(27);
     private boolean isLargeChest = false;
 
     public FemboyEntity(EntityType<? extends TamableAnimal> type, Level level) {
         super(type, level);
+    }
+
+    @Override
+    public Faction getFaction() {
+        return FactionRelations.femboyFaction(this);
     }
 
     public SimpleContainer getInventory() {
@@ -170,10 +178,19 @@ public class FemboyEntity extends TamableAnimal {
             if (!player.getAbilities().instabuild) itemstack.shrink(1);
             if (this.random.nextInt(3) == 0) {
                 this.tame(player);
+                if (!this.hasCustomName()) {
+                    this.setCustomName(Component.literal(NameLists.randomFemboyName(this.random)));
+                    this.setCustomNameVisible(true);
+                }
                 this.navigation.stop();
                 this.setTarget(null);
                 this.setOrderedToSit(false);
                 this.level().broadcastEntityEvent(this, (byte) 7);
+                if (this.level() instanceof ServerLevel serverLevel) {
+                    serverLevel.sendParticles(ParticleTypes.HEART,
+                            this.getX(), this.getY() + this.getBbHeight(), this.getZ(),
+                            8, 0.4D, 0.3D, 0.4D, 0.05D);
+                }
             } else {
                 this.level().broadcastEntityEvent(this, (byte) 6);
             }
@@ -251,7 +268,11 @@ public class FemboyEntity extends TamableAnimal {
                 this.spawnAtLocation(itemstack);
             }
         }
-        this.spawnAtLocation(new ItemStack(Items.CHEST, this.isLargeChest ? 2 : 1));
+    }
+
+    @Override
+    public void startSleeping(BlockPos pos) {
+        // Sit beside the owner instead of occupying the bed.
     }
 
     @Override
@@ -261,7 +282,7 @@ public class FemboyEntity extends TamableAnimal {
 
     class FemboySleepWithOwnerGoal extends Goal {
         private final FemboyEntity femboy;
-        private BlockPos targetBed;
+        private BlockPos sitBeside;
 
         public FemboySleepWithOwnerGoal(FemboyEntity entity) {
             this.femboy = entity;
@@ -278,64 +299,43 @@ public class FemboyEntity extends TamableAnimal {
         }
 
         @Override
+        public boolean canContinueToUse() {
+            Player owner = (Player) this.femboy.getOwner();
+            return owner != null && owner.isSleeping();
+        }
+
+        @Override
         public void start() {
             Player owner = (Player) this.femboy.getOwner();
             if (owner != null && owner.isSleeping()) {
-                this.targetBed = findTargetBed(owner);
-                if (this.targetBed != null) {
-                    this.femboy.getNavigation().moveTo(this.targetBed.getX(), this.targetBed.getY(), this.targetBed.getZ(), 1.0D);
-                }
+                this.sitBeside = owner.blockPosition();
+                this.femboy.getNavigation().moveTo(this.sitBeside.getX() + 0.5D, this.sitBeside.getY(), this.sitBeside.getZ() + 0.5D, 1.0D);
             }
         }
 
         @Override
         public void tick() {
             Player owner = (Player) this.femboy.getOwner();
-            if (owner != null && owner.isSleeping() && this.targetBed != null) {
-                if (this.femboy.blockPosition().distSqr(this.targetBed) <= 9.0D) {
-                    this.femboy.setPos(this.targetBed.getX() + 0.5, this.targetBed.getY() + 0.6, this.targetBed.getZ() + 0.5);
-                    this.femboy.setSleepingPos(this.targetBed);
-                    if (!this.femboy.isSleeping()) {
-                        this.femboy.startSleeping(this.targetBed); 
-                    }
-                } else if (this.femboy.getNavigation().isDone()) {
-                    this.femboy.getNavigation().moveTo(this.targetBed.getX(), this.targetBed.getY(), this.targetBed.getZ(), 1.0D);
+            if (owner == null || !owner.isSleeping()) {
+                return;
+            }
+            if (this.femboy.distanceToSqr(owner) <= 16.0D) {
+                this.femboy.getNavigation().stop();
+                this.femboy.setInSittingPose(true);
+                if (owner instanceof ServerPlayer serverPlayer) {
+                    ModAdvancements.award(serverPlayer, ModAdvancements.BEST_SLEEP, "slept_together");
                 }
+            } else if (this.femboy.getNavigation().isDone() && this.sitBeside != null) {
+                this.femboy.getNavigation().moveTo(this.sitBeside.getX() + 0.5D, this.sitBeside.getY(), this.sitBeside.getZ() + 0.5D, 1.0D);
             }
         }
 
         @Override
         public void stop() {
-            this.femboy.clearSleepingPos();
-            if (this.femboy.isSleeping()) {
-                this.femboy.stopSleeping();
+            if (!this.femboy.isOrderedToSit()) {
+                this.femboy.setInSittingPose(false);
             }
-            this.targetBed = null;
-        }
-
-        private BlockPos findTargetBed(Player player) {
-            Level level = this.femboy.level();
-            BlockPos playerBed = player.blockPosition();
-            boolean rftLoaded = ModList.get().isLoaded("roomfortwo");
-            
-            if (rftLoaded && playerBed != null && level.getBlockState(playerBed).is(net.minecraft.tags.BlockTags.BEDS)) {
-                long sleepers = level.getEntitiesOfClass(LivingEntity.class, new net.minecraft.world.phys.AABB(playerBed).inflate(1)).stream()
-                    .filter(LivingEntity::isSleeping).count();
-                if (sleepers < 2) return playerBed; 
-            }
-            
-            BlockPos center = player.blockPosition();
-            for (BlockPos pos : BlockPos.betweenClosed(center.offset(-8, -4, -8), center.offset(8, 4, 8))) {
-                if (level.getBlockState(pos).is(net.minecraft.tags.BlockTags.BEDS)) {
-                    boolean occupied = level.getBlockState(pos).getValue(BedBlock.OCCUPIED);
-                    if (!occupied) {
-                        boolean claimed = level.getEntitiesOfClass(FemboyEntity.class, new net.minecraft.world.phys.AABB(pos).inflate(2)).stream()
-                            .anyMatch(f -> f.isSleeping() || (f.getNavigation().getTargetPos() != null && f.getNavigation().getTargetPos().equals(pos)));
-                        if (!claimed) return pos.immutable();
-                    }
-                }
-            }
-            return null;
+            this.sitBeside = null;
         }
     }
 }

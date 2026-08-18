@@ -1,0 +1,17 @@
+{
+  "parent": "solarsmobs:root",
+  "display": {
+    "icon": { "item": "minecraft:compass" },
+    "title": { "translate": "advancements.solarsmobs.whole_new_world.title" },
+    "description": { "translate": "advancements.solarsmobs.whole_new_world.description" },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "near_mob": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

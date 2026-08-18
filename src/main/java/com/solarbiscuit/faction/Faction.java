@@ -10,5 +10,9 @@ public enum Faction {
     /** Never initiates on players; retaliates when attacked first. */
     NEUTRAL,
     /** Hostile on sight (vanilla monster behavior). */
-    EVIL
+    EVIL,
+    /** Neutral to players unless provoked; hostile to {@link #EVIL} and {@link #DEMONIC}. */
+    HOLY,
+    /** Opposed to {@link #HOLY}. */
+    DEMONIC
 }
