@@ -1,0 +1,7 @@
+{
+  "type": "emi:info",
+  "stacks": [
+    "item:solarsmobs:holy_cross"
+  ],
+  "text": "item.solarsmobs.holy_cross.tooltip"
+}

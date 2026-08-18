@@ -1,0 +1,17 @@
+{
+  "parent": "solarsmobs:whole_new_world",
+  "display": {
+    "icon": { "item": "minecraft:ender_pearl" },
+    "title": { "translate": "advancements.solarsmobs.new_guard.title" },
+    "description": { "translate": "advancements.solarsmobs.new_guard.description" },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "near_end_warrior": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

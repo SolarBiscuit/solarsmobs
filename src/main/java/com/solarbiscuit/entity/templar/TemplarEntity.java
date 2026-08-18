@@ -2,6 +2,7 @@ package com.solarbiscuit.entity.templar;
 
 import com.solarbiscuit.advancement.ModAdvancements;
 import com.solarbiscuit.compat.simplyswords.SimplySwordsCompat;
+import com.solarbiscuit.entity.EquipmentDrops;
 import com.solarbiscuit.faction.Faction;
 import com.solarbiscuit.faction.FactionRelations;
 import com.solarbiscuit.faction.Factioned;
@@ -16,6 +17,7 @@ import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -36,6 +38,7 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -47,6 +50,7 @@ import java.util.UUID;
 
 public class TemplarEntity extends PathfinderMob implements NeutralMob, Factioned {
     public static final int HIRE_TICKS_PER_INGOT = 1800;
+    private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
 
     private int remainingPersistentAngerTime;
     @Nullable
@@ -171,6 +175,16 @@ public class TemplarEntity extends PathfinderMob implements NeutralMob, Factione
         return super.mobInteract(player, hand);
     }
 
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        if (!this.level().isClientSide && source.getDirectEntity() instanceof AbstractArrow
+                && !this.getMainHandItem().isEmpty()) {
+            this.playSound(SoundEvents.SHIELD_BLOCK, 1.0F, 0.8F + this.random.nextFloat() * 0.4F);
+            return false;
+        }
+        return super.hurt(source, amount);
+    }
+
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason,
@@ -178,8 +192,7 @@ public class TemplarEntity extends PathfinderMob implements NeutralMob, Factione
         SpawnGroupData data = super.finalizeSpawn(level, difficulty, reason, spawnData, dataTag);
         this.setItemSlot(EquipmentSlot.MAINHAND, SimplySwordsCompat.randomIronWeapon(this.getRandom()));
         this.setItemSlot(EquipmentSlot.OFFHAND, createBannerShield());
-        this.setDropChance(EquipmentSlot.MAINHAND, 0.085F);
-        this.setDropChance(EquipmentSlot.OFFHAND, 0.085F);
+        EquipmentDrops.disableAll(this);
         return data;
     }
 

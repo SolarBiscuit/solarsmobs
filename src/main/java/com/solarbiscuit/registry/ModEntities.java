@@ -1,6 +1,7 @@
 package com.solarbiscuit.registry;
 
 import com.solarbiscuit.SolarsMobs;
+import com.solarbiscuit.entity.endwarrior.EndWarriorEntity;
 import com.solarbiscuit.entity.femboy.FemboyEntity;
 import com.solarbiscuit.entity.templar.TemplarEntity;
 import com.solarbiscuit.entity.thief.ThiefEntity;
@@ -37,6 +38,11 @@ public class ModEntities {
                     .sized(0.6F, 1.8F)
                     .build(SolarsMobs.MOD_ID + ":templar"));
 
+    public static final RegistryObject<EntityType<EndWarriorEntity>> END_WARRIOR =
+            ENTITY_TYPES.register("end_warrior", () -> EntityType.Builder.of(EndWarriorEntity::new, MobCategory.MONSTER)
+                    .sized(0.6F, 1.8F)
+                    .build(SolarsMobs.MOD_ID + ":end_warrior"));
+
     public static final RegistryObject<Item> FEMBOY_SPAWN_EGG = ITEMS.register("femboy_spawn_egg",
             () -> new ForgeSpawnEggItem(FEMBOY, 0xFFB6C1, 0xFFFFFF, new Item.Properties()));
 
@@ -45,6 +51,9 @@ public class ModEntities {
 
     public static final RegistryObject<Item> TEMPLAR_SPAWN_EGG = ITEMS.register("templar_spawn_egg",
             () -> new ForgeSpawnEggItem(TEMPLAR, 0xF0F0F0, 0xB22222, new Item.Properties()));
+
+    public static final RegistryObject<Item> END_WARRIOR_SPAWN_EGG = ITEMS.register("end_warrior_spawn_egg",
+            () -> new ForgeSpawnEggItem(END_WARRIOR, 0x1B0A2A, 0xC084FC, new Item.Properties()));
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);
@@ -56,6 +65,7 @@ public class ModEntities {
             event.accept(FEMBOY_SPAWN_EGG.get());
             event.accept(THIEF_SPAWN_EGG.get());
             event.accept(TEMPLAR_SPAWN_EGG.get());
+            event.accept(END_WARRIOR_SPAWN_EGG.get());
         }
         if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS) {
             event.accept(ModItems.FEMBOY_MILK_BUCKET.get());
@@ -63,6 +73,7 @@ public class ModEntities {
         if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
             event.accept(ModItems.THIEVES_GUILD_NECKLACE.get());
             event.accept(ModItems.HOLY_CROSS.get());
+            event.accept(ModItems.SACRED_ENDER_RING.get());
         }
     }
 }

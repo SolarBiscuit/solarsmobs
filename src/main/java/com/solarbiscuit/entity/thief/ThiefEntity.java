@@ -1,5 +1,6 @@
 package com.solarbiscuit.entity.thief;
 
+import com.solarbiscuit.entity.EquipmentDrops;
 import com.solarbiscuit.faction.Faction;
 import com.solarbiscuit.faction.FactionRelations;
 import com.solarbiscuit.faction.Factioned;
@@ -13,10 +14,12 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
@@ -30,10 +33,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.EnumSet;
 
 public class ThiefEntity extends Monster implements Factioned {
     public static final int MAX_SKINS = 9;
+    public static final double STALK_RANGE = 12.0D;
 
     private static final EntityDataAccessor<Integer> DATA_SKIN =
             SynchedEntityData.defineId(ThiefEntity.class, EntityDataSerializers.INT);
@@ -60,7 +67,7 @@ public class ThiefEntity extends Monster implements Factioned {
                 .add(Attributes.MAX_HEALTH, 20.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.23D)
                 .add(Attributes.ATTACK_DAMAGE, 3.0D)
-                .add(Attributes.FOLLOW_RANGE, 35.0D) // zombie-equivalent aggro range
+                .add(Attributes.FOLLOW_RANGE, 35.0D)
                 .add(Attributes.ARMOR, 0.0D);
     }
 
@@ -73,14 +80,37 @@ public class ThiefEntity extends Monster implements Factioned {
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
+        this.goalSelector.addGoal(1, new StalkPlayerGoal(this));
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.2D, false));
-        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 0.8D));
+        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 0.7D));
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
 
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false,
                 living -> living instanceof Player player && FactionRelations.thiefShouldHuntPlayer(player)));
+    }
+
+    @Override
+    public void aiStep() {
+        super.aiStep();
+        boolean sneaking = shouldSneak();
+        this.setShiftKeyDown(sneaking);
+        this.setPose(sneaking ? Pose.CROUCHING : Pose.STANDING);
+    }
+
+    private boolean shouldSneak() {
+        LivingEntity target = this.getTarget();
+        if (target instanceof Player player && isPlayerFacing(player, this) && this.distanceTo(player) <= STALK_RANGE) {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isPlayerFacing(Player player, LivingEntity target) {
+        Vec3 look = player.getViewVector(1.0F);
+        Vec3 toTarget = target.position().add(0.0D, target.getEyeHeight() * 0.5D, 0.0D).subtract(player.getEyePosition()).normalize();
+        return look.dot(toTarget) > 0.35D;
     }
 
     @Nullable
@@ -92,15 +122,11 @@ public class ThiefEntity extends Monster implements Factioned {
         setSkinIndex(random.nextInt(MAX_SKINS));
         equipRandomChainmail(random);
         equipRandomWeapon(random);
-        this.setDropChance(EquipmentSlot.MAINHAND, 0.085F);
-        for (EquipmentSlot slot : new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET}) {
-            this.setDropChance(slot, 0.085F);
-        }
+        EquipmentDrops.disableAll(this);
         return data;
     }
 
     private void equipRandomChainmail(RandomSource random) {
-        // Any independent combo of pieces, including none / partial / full.
         maybeEquip(EquipmentSlot.HEAD, Items.CHAINMAIL_HELMET, random);
         maybeEquip(EquipmentSlot.CHEST, Items.CHAINMAIL_CHESTPLATE, random);
         maybeEquip(EquipmentSlot.LEGS, Items.CHAINMAIL_LEGGINGS, random);
@@ -143,5 +169,65 @@ public class ThiefEntity extends Monster implements Factioned {
             return false;
         }
         return super.canAttack(target);
+    }
+
+    private static class StalkPlayerGoal extends Goal {
+        private final ThiefEntity thief;
+        private Player prey;
+        private int recalcPath;
+
+        StalkPlayerGoal(ThiefEntity thief) {
+            this.thief = thief;
+            this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
+        }
+
+        @Override
+        public boolean canUse() {
+            Player closest = this.thief.level().getNearestPlayer(this.thief, STALK_RANGE);
+            if (closest == null || !closest.isAlive() || closest.isSpectator() || closest.isCreative()) {
+                return false;
+            }
+            if (!FactionRelations.thiefShouldHuntPlayer(closest) && this.thief.getLastHurtByMob() != closest) {
+                return false;
+            }
+            if (ThiefEntity.isPlayerFacing(closest, this.thief)) {
+                return false;
+            }
+            this.prey = closest;
+            return true;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return this.prey != null
+                    && this.prey.isAlive()
+                    && this.thief.distanceTo(this.prey) <= STALK_RANGE + 2.0D
+                    && !ThiefEntity.isPlayerFacing(this.prey, this.thief);
+        }
+
+        @Override
+        public void start() {
+            this.recalcPath = 0;
+            this.thief.setTarget(this.prey);
+            this.thief.setShiftKeyDown(true);
+        }
+
+        @Override
+        public void stop() {
+            this.prey = null;
+            this.thief.getNavigation().stop();
+        }
+
+        @Override
+        public void tick() {
+            if (this.prey == null) {
+                return;
+            }
+            this.thief.getLookControl().setLookAt(this.prey, 30.0F, 30.0F);
+            if (--this.recalcPath <= 0) {
+                this.recalcPath = 8;
+                this.thief.getNavigation().moveTo(this.prey, 0.85D);
+            }
+        }
     }
 }

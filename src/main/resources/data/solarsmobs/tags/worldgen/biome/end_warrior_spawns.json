@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:is_end",
+    { "id": "voidscape:void", "required": false },
+    { "id": "voidscape:overworld", "required": false },
+    { "id": "voidscape:nether", "required": false },
+    { "id": "voidscape:end", "required": false }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "parent": "solarsmobs:end_warrior/new_guard",
+  "display": {
+    "icon": { "item": "minecraft:netherite_sword" },
+    "title": { "translate": "advancements.solarsmobs.ill_fated_end.title" },
+    "description": { "translate": "advancements.solarsmobs.ill_fated_end.description" },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "killed_end_warrior": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": { "type": "solarsmobs:end_warrior" }
+      }
+    }
+  }
+}

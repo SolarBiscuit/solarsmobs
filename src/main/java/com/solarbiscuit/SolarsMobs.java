@@ -1,12 +1,15 @@
 package com.solarbiscuit;
 
+import com.solarbiscuit.entity.endwarrior.EndWarriorEntity;
 import com.solarbiscuit.entity.femboy.FemboyEntity;
 import com.solarbiscuit.entity.templar.TemplarEntity;
 import com.solarbiscuit.entity.thief.ThiefEntity;
+import com.solarbiscuit.registry.ModCreativeTabs;
 import com.solarbiscuit.registry.ModEntities;
 import com.solarbiscuit.registry.ModFluids;
 import com.solarbiscuit.registry.ModItems;
 import com.solarbiscuit.registry.ModMenuTypes;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.animal.Animal;
@@ -27,6 +30,7 @@ public class SolarsMobs {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         ModEntities.register(modEventBus);
+        ModCreativeTabs.TABS.register(modEventBus);
         ModFluids.FLUID_TYPES.register(modEventBus);
         ModFluids.FLUIDS.register(modEventBus);
         ModMenuTypes.MENUS.register(modEventBus);
@@ -41,6 +45,7 @@ public class SolarsMobs {
         event.put(ModEntities.FEMBOY.get(), FemboyEntity.createAttributes().build());
         event.put(ModEntities.THIEF.get(), ThiefEntity.createAttributes().build());
         event.put(ModEntities.TEMPLAR.get(), TemplarEntity.createAttributes().build());
+        event.put(ModEntities.END_WARRIOR.get(), EndWarriorEntity.createAttributes().build());
     }
 
     private void registerSpawnPlacements(SpawnPlacementRegisterEvent event) {
@@ -63,6 +68,15 @@ public class SolarsMobs {
                 SpawnPlacements.Type.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 Mob::checkMobSpawnRules,
+                SpawnPlacementRegisterEvent.Operation.OR
+        );
+        event.register(
+                ModEntities.END_WARRIOR.get(),
+                SpawnPlacements.Type.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                (type, level, spawnType, pos, random) ->
+                        level.getDifficulty() != Difficulty.PEACEFUL
+                                && Mob.checkMobSpawnRules(type, level, spawnType, pos, random),
                 SpawnPlacementRegisterEvent.Operation.OR
         );
     }

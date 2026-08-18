@@ -14,5 +14,7 @@ public enum Faction {
     /** Neutral to players unless provoked; hostile to {@link #EVIL} and {@link #DEMONIC}. */
     HOLY,
     /** Opposed to {@link #HOLY}. */
-    DEMONIC
+    DEMONIC,
+    /** Neutral until provoked; pack-aggros like zombified piglins. */
+    ENDER
 }

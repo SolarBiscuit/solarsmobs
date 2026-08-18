@@ -16,6 +16,9 @@ public final class ModAdvancements {
     public static final ResourceLocation HOLY_WAR = id("templar/holy_war");
     public static final ResourceLocation DEFENDER_OF_THE_FAITH = id("templar/defender_of_the_faith");
     public static final ResourceLocation TITHE = id("templar/tithe");
+    public static final ResourceLocation NEW_GUARD = id("end_warrior/new_guard");
+    public static final ResourceLocation ILL_FATED_END = id("end_warrior/ill_fated_end");
+    public static final ResourceLocation BRAVEHEART = id("end_warrior/braveheart");
 
     private ModAdvancements() {}
 

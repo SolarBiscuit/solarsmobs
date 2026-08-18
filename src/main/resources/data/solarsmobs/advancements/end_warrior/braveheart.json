@@ -1,0 +1,17 @@
+{
+  "parent": "solarsmobs:end_warrior/ill_fated_end",
+  "display": {
+    "icon": { "item": "solarsmobs:sacred_ender_ring" },
+    "title": { "translate": "advancements.solarsmobs.braveheart.title" },
+    "description": { "translate": "advancements.solarsmobs.braveheart.description" },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "killed_charging": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

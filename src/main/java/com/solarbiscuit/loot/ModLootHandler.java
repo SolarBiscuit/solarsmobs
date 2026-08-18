@@ -24,6 +24,10 @@ public class ModLootHandler {
             new ResourceLocation("minecraft", "chests/simple_dungeon");
     private static final ResourceLocation HATBAG_COMMON =
             new ResourceLocation(SIMPLE_HATS_ID, "hatbag_common");
+    private static final ResourceLocation HATBAG_UNCOMMON =
+            new ResourceLocation(SIMPLE_HATS_ID, "hatbag_uncommon");
+    private static final ResourceLocation END_WARRIOR_LOOT =
+            new ResourceLocation(SolarsMobs.MOD_ID, "entities/end_warrior");
 
     @SubscribeEvent
     public static void onLootTableLoad(LootTableLoadEvent event) {
@@ -39,23 +43,26 @@ public class ModLootHandler {
         }
 
         if (SHARED_MOB_LOOT.equals(id)) {
-            addSimplyHatsPool(event);
+            addSimplyHatsPool(event, HATBAG_COMMON, 0.10F, "solarsmobs_simplyhats");
+        }
+        if (END_WARRIOR_LOOT.equals(id)) {
+            addSimplyHatsPool(event, HATBAG_UNCOMMON, 0.20F, "solarsmobs_simplyhats_uncommon");
         }
     }
 
-    private static void addSimplyHatsPool(LootTableLoadEvent event) {
+    private static void addSimplyHatsPool(LootTableLoadEvent event, ResourceLocation itemId, float chance, String poolName) {
         if (!ModList.get().isLoaded(SIMPLE_HATS_ID)) {
             return;
         }
-        Item hatbag = ForgeRegistries.ITEMS.getValue(HATBAG_COMMON);
+        Item hatbag = ForgeRegistries.ITEMS.getValue(itemId);
         if (hatbag == null || hatbag == Items.AIR) {
             return;
         }
         event.getTable().addPool(LootPool.lootPool()
-                .name("solarsmobs_simplyhats")
+                .name(poolName)
                 .setRolls(ConstantValue.exactly(1.0F))
                 .add(LootItem.lootTableItem(hatbag)
-                        .when(LootItemRandomChanceCondition.randomChance(0.10F)))
+                        .when(LootItemRandomChanceCondition.randomChance(chance)))
                 .build());
     }
 }

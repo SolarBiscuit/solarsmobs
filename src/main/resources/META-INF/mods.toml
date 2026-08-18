@@ -53,3 +53,19 @@ displayTest = "IGNORE_ALL_VERSION"
     versionRange="[0,)"
     ordering="NONE"
     side="BOTH"
+
+# Optional EMI — Holy Cross info page
+[[dependencies.${mod_id}]]
+    modId="emi"
+    mandatory=false
+    versionRange="[0,)"
+    ordering="NONE"
+    side="CLIENT"
+
+# Optional Voidscape — End Warriors can spawn in its biomes
+[[dependencies.${mod_id}]]
+    modId="voidscape"
+    mandatory=false
+    versionRange="[0,)"
+    ordering="NONE"
+    side="BOTH"

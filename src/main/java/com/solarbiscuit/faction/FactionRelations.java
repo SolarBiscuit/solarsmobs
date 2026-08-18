@@ -28,6 +28,11 @@ public final class FactionRelations {
                 || CuriosCompat.isEquipped(entity, ModItems.HOLY_CROSS.get());
     }
 
+    public static boolean hasSacredEnderRing(LivingEntity entity) {
+        Item ring = ModItems.SACRED_ENDER_RING.get();
+        return isHolding(entity, ring) || CuriosCompat.isEquipped(entity, ring);
+    }
+
     private static boolean isHolding(LivingEntity entity, Item item) {
         return entity.getMainHandItem().is(item) || entity.getOffhandItem().is(item);
     }
