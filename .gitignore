@@ -19,6 +19,7 @@ out/
 build
 .gradle
 .gradle/
+.log
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
