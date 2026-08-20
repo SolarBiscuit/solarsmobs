@@ -46,5 +46,9 @@
   "advancements.solarsmobs.ill_fated_end.title": "An ill-fated End",
   "advancements.solarsmobs.ill_fated_end.description": "Kill an End Warrior.",
   "advancements.solarsmobs.braveheart.title": "Braveheart!",
-  "advancements.solarsmobs.braveheart.description": "After killing an End creature, slay three charging End Warriors within 30 seconds."
+  "advancements.solarsmobs.braveheart.description": "After killing an End creature, slay three charging End Warriors within 30 seconds.",
+  "jade.solarsmobs.templar.following": "Following for %s",
+  "jade.solarsmobs.femboy.large_chest": "Large Chest",
+  "config.jade.plugin_solarsmobs.femboy_chest": "Femboy Chest",
+  "config.jade.plugin_solarsmobs.templar_hire": "Templar Follow Time"
 }

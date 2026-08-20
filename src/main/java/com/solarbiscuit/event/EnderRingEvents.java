@@ -111,7 +111,7 @@ public class EnderRingEvents {
     }
 
     private static void calmEndermen(Player player) {
-        AABB box = player.getBoundingBox().inflate(64.0D);
+        AABB box = player.getBoundingBox().inflate(48.0D);
         for (Mob mob : player.level().getEntitiesOfClass(Mob.class, box, EnderRingEvents::isEndermanLike)) {
             boolean targetingPlayer = mob.getTarget() == player
                     || mob.getLastHurtByMob() == player

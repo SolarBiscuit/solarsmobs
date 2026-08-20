@@ -378,6 +378,11 @@ public final class FemboyStorageAccess {
         }
     }
 
+    public static ItemStack peekChestStack(FemboyEntity femboy) {
+        Holder holder = HOLDERS.get(femboy);
+        return holder == null ? ItemStack.EMPTY : holder.stack.copy();
+    }
+
     static boolean isOpenFor(Player player, FemboyEntity femboy) {
         if (player.containerMenu instanceof FemboyStorageMenu menu) {
             return menu.getFemboy() == femboy;

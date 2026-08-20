@@ -62,7 +62,8 @@ public final class HumanoidSkinTextures {
             return;
         }
         Map<ResourceLocation, ?> resources = Minecraft.getInstance().getResourceManager()
-                .listResources("textures/entity/" + folder, loc -> loc.getPath().endsWith(".png"));
+                .listResources("textures/entity/" + folder, loc -> loc.getPath().endsWith(".png")
+                        && !loc.getPath().endsWith("_aether.png"));
         textures.addAll(resources.keySet());
         textures.sort(ResourceLocation::compareTo);
         loaded = true;

@@ -108,3 +108,11 @@ displayTest = "IGNORE_ALL_VERSION"
     versionRange="[0,)"
     ordering="AFTER"
     side="BOTH"
+
+# Optional Jade — Femboy chest and Templar hire timer on the overlay
+[[dependencies.${mod_id}]]
+    modId="jade"
+    mandatory=false
+    versionRange="[11.0,)"
+    ordering="AFTER"
+    side="BOTH"

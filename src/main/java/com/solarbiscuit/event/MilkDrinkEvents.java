@@ -25,8 +25,8 @@ public class MilkDrinkEvents {
         stack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).ifPresent(handler -> {
             if (handler.getFluidInTank(0).getFluid() == ModFluids.FEMBOY_MILK.get() && handler.getFluidInTank(0).getAmount() >= 1000) {
                 if (!player.level().isClientSide()) {
-                    player.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, ABSORPTION_TICKS, 0));
                     player.curePotionEffects(new ItemStack(Items.MILK_BUCKET));
+                    player.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, ABSORPTION_TICKS, 0));
 
                     if (!player.isCreative()) {
                         handler.drain(1000, IFluidHandler.FluidAction.EXECUTE);

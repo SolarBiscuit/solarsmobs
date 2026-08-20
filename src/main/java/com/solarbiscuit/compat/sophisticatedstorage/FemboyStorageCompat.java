@@ -66,4 +66,8 @@ public final class FemboyStorageCompat {
     public static boolean isOpenFor(Player player, FemboyEntity femboy) {
         return isLoaded() && FemboyStorageAccess.isOpenFor(player, femboy);
     }
+
+    public static ItemStack peekChestStack(FemboyEntity femboy) {
+        return isLoaded() ? FemboyStorageAccess.peekChestStack(femboy) : ItemStack.EMPTY;
+    }
 }

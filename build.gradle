@@ -87,6 +87,9 @@ dependencies {
     compileOnly fg.deobf("blank:sophisticatedcore:1.20.1-1.3.5.1505")
     compileOnly fg.deobf("blank:sophisticatedstorage:1.20.1-1.4.25.1488")
     compileOnly fg.deobf("blank:sophisticatedbackpacks:1.20.1-3.24.24.1538")
+
+    // Optional Jade — entity tooltip providers; discovered via @WailaPlugin when Jade is present
+    compileOnly fg.deobf("blank:Jade:1.20.1-Forge-11.13.2")
 }
 
 tasks.named('processResources', ProcessResources).configure {
