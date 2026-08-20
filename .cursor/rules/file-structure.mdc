@@ -1,8 +1,0 @@
----
-description: Ask the user before assuming file-structure organization
-alwaysApply: true
----
-
-# File structure
-
-If a change needs a new folder, a file move, or a different layout than what already exists, ask the user how they want it organized. Do not invent a directory scheme or relocate files based on assumption.
