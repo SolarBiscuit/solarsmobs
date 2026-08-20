@@ -1,12 +1,11 @@
 package com.solarbiscuit.client;
 
 import com.solarbiscuit.SolarsMobs;
-import com.solarbiscuit.client.endwarrior.EndWarriorRenderer;
-import com.solarbiscuit.client.femboy.FemboyRenderer;
 import com.solarbiscuit.client.femboy.FemboyScreen;
-import com.solarbiscuit.client.templar.TemplarRenderer;
-import com.solarbiscuit.client.thief.ThiefRenderer;
-import com.solarbiscuit.registry.ModEntities;
+import com.solarbiscuit.compat.sophisticatedbackpacks.FemboyBackpackClient;
+import com.solarbiscuit.compat.sophisticatedbackpacks.FemboyBackpackCompat;
+import com.solarbiscuit.compat.sophisticatedstorage.FemboyStorageClient;
+import com.solarbiscuit.compat.sophisticatedstorage.FemboyStorageCompat;
 import com.solarbiscuit.registry.ModMenuTypes;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraftforge.api.distmarker.Dist;
@@ -20,14 +19,19 @@ public class ClientEvents {
 
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
-        event.enqueueWork(() -> MenuScreens.register(ModMenuTypes.FEMBOY_MENU.get(), FemboyScreen::new));
+        event.enqueueWork(() -> {
+            MenuScreens.register(ModMenuTypes.FEMBOY_MENU.get(), FemboyScreen::new);
+            if (FemboyStorageCompat.isLoaded()) {
+                FemboyStorageClient.registerScreens();
+            }
+            if (FemboyBackpackCompat.isLoaded()) {
+                FemboyBackpackClient.registerScreens();
+            }
+        });
     }
 
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(ModEntities.FEMBOY.get(), FemboyRenderer::new);
-        event.registerEntityRenderer(ModEntities.THIEF.get(), ThiefRenderer::new);
-        event.registerEntityRenderer(ModEntities.TEMPLAR.get(), TemplarRenderer::new);
-        event.registerEntityRenderer(ModEntities.END_WARRIOR.get(), EndWarriorRenderer::new);
+        ClientMobCatalog.registerRenderers(event);
     }
 }

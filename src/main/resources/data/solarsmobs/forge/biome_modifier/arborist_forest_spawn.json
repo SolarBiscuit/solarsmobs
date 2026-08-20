@@ -1,0 +1,14 @@
+{
+  "type": "solarsmobs:forest_name_spawns",
+  "contains": "forest",
+  "overworld_only": true,
+  "category": "creature",
+  "spawners": [
+    {
+      "type": "solarsmobs:arborist",
+      "weight": 4,
+      "minCount": 1,
+      "maxCount": 1
+    }
+  ]
+}

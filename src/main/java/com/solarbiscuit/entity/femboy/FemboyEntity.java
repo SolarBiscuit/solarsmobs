@@ -1,6 +1,8 @@
 package com.solarbiscuit.entity.femboy;
 
 import com.solarbiscuit.advancement.ModAdvancements;
+import com.solarbiscuit.compat.sophisticatedbackpacks.FemboyBackpackCompat;
+import com.solarbiscuit.compat.sophisticatedstorage.FemboyStorageCompat;
 import com.solarbiscuit.faction.Faction;
 import com.solarbiscuit.faction.FactionRelations;
 import com.solarbiscuit.faction.Factioned;
@@ -35,6 +37,8 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
@@ -46,6 +50,10 @@ import java.util.EnumSet;
 public class FemboyEntity extends TamableAnimal implements Factioned {
     private SimpleContainer inventory = new SimpleContainer(27);
     private boolean isLargeChest = false;
+    private boolean lastNearbySneak;
+    private final long[] sneakPressTimes = new long[3];
+    private int sneakPressCount;
+    private int sneakMimicTicks;
 
     public FemboyEntity(EntityType<? extends TamableAnimal> type, Level level) {
         super(type, level);
@@ -78,7 +86,8 @@ public class FemboyEntity extends TamableAnimal implements Factioned {
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
-        this.goalSelector.addGoal(1, new SitWhenOrderedToGoal(this)); // Pure Vanilla Sitting AI
+        this.goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
+        this.goalSelector.addGoal(1, new StayStillWhileAccessedGoal(this));
         this.goalSelector.addGoal(2, new FemboySleepWithOwnerGoal(this));
 
         this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.2D, true) {
@@ -92,8 +101,8 @@ public class FemboyEntity extends TamableAnimal implements Factioned {
             }
         });
 
-        this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F, false));
-        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1.5D, 10.0F, 2.0F, false));
+        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.5D));
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F, 0.02F));
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
 
@@ -128,7 +137,17 @@ public class FemboyEntity extends TamableAnimal implements Factioned {
 
         if (this.isTame() && this.isOwnedBy(player)) {
 
-            if (itemstack.is(Items.CHEST) && !this.isLargeChest) {
+            InteractionResult storageInteract = FemboyStorageCompat.tryInteract(this, player, hand, itemstack);
+            if (storageInteract.consumesAction()) {
+                return storageInteract;
+            }
+
+            InteractionResult backpackInteract = FemboyBackpackCompat.tryInteract(this, player, hand, itemstack);
+            if (backpackInteract.consumesAction()) {
+                return backpackInteract;
+            }
+
+            if (itemstack.is(Items.CHEST) && !this.isLargeChest && !FemboyStorageCompat.isLoaded()) {
                 if (!player.getAbilities().instabuild) itemstack.shrink(1);
                 this.upgradeToLargeChest();
                 this.playSound(SoundEvents.WOOD_PLACE, 1.0F, 1.0F);
@@ -155,11 +174,15 @@ public class FemboyEntity extends TamableAnimal implements Factioned {
                 }
             }
 
+            if (itemstack.isEmpty() && this.isLookingAtBack(player)
+                    && FemboyBackpackCompat.handleOpen(player, this)) {
+                return InteractionResult.SUCCESS;
+            }
+
             if (player.isShiftKeyDown() && itemstack.isEmpty()) {
-                if (!this.getItemBySlot(net.minecraft.world.entity.EquipmentSlot.CHEST).isEmpty()) {
-                    net.minecraft.world.phys.Vec3 viewVector = player.getViewVector(1.0F).normalize();
-                    net.minecraft.world.phys.Vec3 entityLook = this.getViewVector(1.0F).normalize();
-                    if (viewVector.dot(entityLook) > 0.0D) return InteractionResult.PASS;
+                if (!this.getItemBySlot(net.minecraft.world.entity.EquipmentSlot.CHEST).isEmpty()
+                        && this.isLookingAtBack(player)) {
+                    return InteractionResult.PASS;
                 }
                 this.openCustomInventory(player);
                 return InteractionResult.SUCCESS;
@@ -200,6 +223,12 @@ public class FemboyEntity extends TamableAnimal implements Factioned {
         return super.mobInteract(player, hand);
     }
 
+    private boolean isLookingAtBack(Player player) {
+        Vec3 viewVector = player.getViewVector(1.0F).normalize();
+        Vec3 entityLook = this.getViewVector(1.0F).normalize();
+        return viewVector.dot(entityLook) > 0.0D;
+    }
+
     private void upgradeToLargeChest() {
         this.isLargeChest = true;
         SimpleContainer newInv = new SimpleContainer(54);
@@ -210,6 +239,10 @@ public class FemboyEntity extends TamableAnimal implements Factioned {
     }
 
     private void openCustomInventory(Player player) {
+        if (FemboyStorageCompat.isLoaded()) {
+            FemboyStorageCompat.open(player, this);
+            return;
+        }
         if (player instanceof ServerPlayer serverPlayer) {
             NetworkHooks.openScreen(serverPlayer, new MenuProvider() {
                 @Override
@@ -242,6 +275,7 @@ public class FemboyEntity extends TamableAnimal implements Factioned {
             }
         }
         compound.put("Items", listtag);
+        FemboyStorageCompat.save(this, compound);
     }
 
     @Override
@@ -257,17 +291,33 @@ public class FemboyEntity extends TamableAnimal implements Factioned {
                 this.inventory.setItem(j, ItemStack.of(compoundtag));
             }
         }
+        FemboyStorageCompat.load(this, compound);
+    }
+
+    @Override
+    public void aiStep() {
+        super.aiStep();
+        this.tickSneakMimic();
+        if (!this.level().isClientSide) {
+            FemboyStorageCompat.tick(this);
+            FemboyBackpackCompat.tick(this);
+        }
     }
 
     @Override
     protected void dropEquipment() {
         super.dropEquipment();
-        for (int i = 0; i < this.inventory.getContainerSize(); ++i) {
-            ItemStack itemstack = this.inventory.getItem(i);
-            if (!itemstack.isEmpty()) {
-                this.spawnAtLocation(itemstack);
+        if (FemboyStorageCompat.isLoaded()) {
+            FemboyStorageCompat.dropContents(this);
+        } else {
+            for (int i = 0; i < this.inventory.getContainerSize(); ++i) {
+                ItemStack itemstack = this.inventory.getItem(i);
+                if (!itemstack.isEmpty()) {
+                    this.spawnAtLocation(itemstack);
+                }
             }
         }
+        com.solarbiscuit.compat.curios.CuriosCompat.dropFemboySlots(this);
     }
 
     @Override
@@ -278,6 +328,117 @@ public class FemboyEntity extends TamableAnimal implements Factioned {
     @Override
     public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob otherParent) {
         return ModEntities.FEMBOY.get().create(level);
+    }
+
+    private void tickSneakMimic() {
+        if (this.level().isClientSide) {
+            return;
+        }
+        if (this.sneakMimicTicks > 0) {
+            int cycle = 7;
+            int elapsed = 21 - this.sneakMimicTicks;
+            this.setShiftKeyDown((elapsed % cycle) < 4);
+            this.sneakMimicTicks--;
+            if (this.sneakMimicTicks == 0) {
+                this.setShiftKeyDown(false);
+            }
+            return;
+        }
+        if (this.isInSittingPose() || this.isOrderedToSit()) {
+            this.lastNearbySneak = false;
+            return;
+        }
+        Player inFront = this.findPlayerInFront();
+        boolean sneaking = inFront != null && inFront.isShiftKeyDown();
+        if (sneaking && !this.lastNearbySneak) {
+            long now = this.level().getGameTime();
+            if (this.sneakPressCount < 3) {
+                this.sneakPressTimes[this.sneakPressCount++] = now;
+            } else {
+                this.sneakPressTimes[0] = this.sneakPressTimes[1];
+                this.sneakPressTimes[1] = this.sneakPressTimes[2];
+                this.sneakPressTimes[2] = now;
+            }
+            if (this.sneakPressCount >= 3 && now - this.sneakPressTimes[0] <= 10L) {
+                this.sneakMimicTicks = 21;
+                this.sneakPressCount = 0;
+            }
+        }
+        this.lastNearbySneak = sneaking;
+    }
+
+    private Player findPlayerInFront() {
+        AABB box = this.getBoundingBox().inflate(3.5D, 1.0D, 3.5D);
+        Player best = null;
+        for (Player player : this.level().getEntitiesOfClass(Player.class, box)) {
+            if (player.isSpectator()) {
+                continue;
+            }
+            Vec3 toPlayer = player.position().subtract(this.position());
+            Vec3 horizontal = new Vec3(toPlayer.x, 0.0D, toPlayer.z);
+            if (horizontal.lengthSqr() < 0.0001D) {
+                continue;
+            }
+            Vec3 look = this.getLookAngle();
+            Vec3 lookFlat = new Vec3(look.x, 0.0D, look.z);
+            if (lookFlat.lengthSqr() < 0.0001D) {
+                continue;
+            }
+            if (horizontal.normalize().dot(lookFlat.normalize()) <= 0.35D) {
+                continue;
+            }
+            if (player.isShiftKeyDown()) {
+                return player;
+            }
+            if (best == null) {
+                best = player;
+            }
+        }
+        return best;
+    }
+
+    public boolean isBeingAccessedByOwner() {
+        if (!(this.getOwner() instanceof Player player)) {
+            return false;
+        }
+        if (player.containerMenu instanceof FemboyMenu menu) {
+            return menu.getFemboy() == this;
+        }
+        return FemboyStorageCompat.isOpenFor(player, this) || FemboyBackpackCompat.isOpenFor(player, this);
+    }
+
+    class StayStillWhileAccessedGoal extends Goal {
+        private final FemboyEntity femboy;
+
+        StayStillWhileAccessedGoal(FemboyEntity femboy) {
+            this.femboy = femboy;
+            this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.JUMP));
+        }
+
+        @Override
+        public boolean canUse() {
+            return this.femboy.isTame() && this.femboy.isBeingAccessedByOwner();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return this.femboy.isBeingAccessedByOwner();
+        }
+
+        @Override
+        public void start() {
+            this.femboy.getNavigation().stop();
+            this.femboy.setTarget(null);
+        }
+
+        @Override
+        public void tick() {
+            this.femboy.getNavigation().stop();
+        }
+
+        @Override
+        public void stop() {
+        }
     }
 
     class FemboySleepWithOwnerGoal extends Goal {

@@ -41,9 +41,11 @@ import java.util.EnumSet;
 public class ThiefEntity extends Monster implements Factioned {
     public static final int MAX_SKINS = 9;
     public static final double STALK_RANGE = 12.0D;
+    public static final int SEEN_COOLDOWN_TICKS = 1200;
 
     private static final EntityDataAccessor<Integer> DATA_SKIN =
             SynchedEntityData.defineId(ThiefEntity.class, EntityDataSerializers.INT);
+    private int seenCooldown;
 
     public ThiefEntity(EntityType<? extends Monster> type, Level level) {
         super(type, level);
@@ -94,17 +96,33 @@ public class ThiefEntity extends Monster implements Factioned {
     @Override
     public void aiStep() {
         super.aiStep();
+        if (!this.level().isClientSide) {
+            if (this.seenCooldown > 0) {
+                this.seenCooldown--;
+            }
+            LivingEntity target = this.getTarget();
+            if (target instanceof Player && this.distanceTo(target) > this.getAttributeValue(Attributes.FOLLOW_RANGE) - 4.0D) {
+                this.setTarget(null);
+            }
+        }
         boolean sneaking = shouldSneak();
         this.setShiftKeyDown(sneaking);
         this.setPose(sneaking ? Pose.CROUCHING : Pose.STANDING);
     }
 
     private boolean shouldSneak() {
+        if (this.seenCooldown > 0) {
+            return false;
+        }
         LivingEntity target = this.getTarget();
         if (target instanceof Player player && isPlayerFacing(player, this) && this.distanceTo(player) <= STALK_RANGE) {
             return false;
         }
         return true;
+    }
+
+    public void startSeenCooldown() {
+        this.seenCooldown = SEEN_COOLDOWN_TICKS;
     }
 
     public static boolean isPlayerFacing(Player player, LivingEntity target) {
@@ -152,6 +170,7 @@ public class ThiefEntity extends Monster implements Factioned {
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putInt("SkinIndex", getSkinIndex());
+        tag.putInt("SeenCooldown", this.seenCooldown);
     }
 
     @Override
@@ -160,6 +179,7 @@ public class ThiefEntity extends Monster implements Factioned {
         if (tag.contains("SkinIndex")) {
             setSkinIndex(tag.getInt("SkinIndex"));
         }
+        this.seenCooldown = tag.getInt("SeenCooldown");
     }
 
     @Override
@@ -183,6 +203,9 @@ public class ThiefEntity extends Monster implements Factioned {
 
         @Override
         public boolean canUse() {
+            if (this.thief.seenCooldown > 0) {
+                return false;
+            }
             Player closest = this.thief.level().getNearestPlayer(this.thief, STALK_RANGE);
             if (closest == null || !closest.isAlive() || closest.isSpectator() || closest.isCreative()) {
                 return false;
@@ -214,6 +237,9 @@ public class ThiefEntity extends Monster implements Factioned {
 
         @Override
         public void stop() {
+            if (this.prey != null && this.prey.isAlive() && ThiefEntity.isPlayerFacing(this.prey, this.thief)) {
+                this.thief.startSeenCooldown();
+            }
             this.prey = null;
             this.thief.getNavigation().stop();
         }

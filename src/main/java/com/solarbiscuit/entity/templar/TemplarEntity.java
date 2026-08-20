@@ -160,7 +160,7 @@ public class TemplarEntity extends PathfinderMob implements NeutralMob, Factione
                 this.recruiterUUID = player.getUUID();
                 this.remainingHireTicks += HIRE_TICKS_PER_INGOT;
                 this.setPersistenceRequired();
-                this.playSound(SoundEvents.VILLAGER_YES, 1.0F, 1.0F);
+                this.playSound(SoundEvents.PLAYER_LEVELUP, 0.6F, 1.2F);
                 if (this.level() instanceof ServerLevel serverLevel) {
                     serverLevel.sendParticles(ParticleTypes.HAPPY_VILLAGER,
                             this.getX(), this.getY() + 1.2D, this.getZ(),

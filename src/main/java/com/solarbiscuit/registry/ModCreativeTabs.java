@@ -16,10 +16,9 @@ public class ModCreativeTabs {
             .title(Component.translatable("itemGroup.solarsmobs"))
             .icon(() -> new ItemStack(ModItems.HOLY_CROSS.get()))
             .displayItems((params, output) -> {
-                output.accept(ModEntities.FEMBOY_SPAWN_EGG.get());
-                output.accept(ModEntities.THIEF_SPAWN_EGG.get());
-                output.accept(ModEntities.TEMPLAR_SPAWN_EGG.get());
-                output.accept(ModEntities.END_WARRIOR_SPAWN_EGG.get());
+                for (MobEntry<?> mob : MobCatalog.ALL) {
+                    output.accept(mob.spawnEgg().get());
+                }
                 output.accept(ModItems.FEMBOY_MILK_BUCKET.get());
                 output.accept(ModItems.THIEVES_GUILD_NECKLACE.get());
                 output.accept(ModItems.HOLY_CROSS.get());

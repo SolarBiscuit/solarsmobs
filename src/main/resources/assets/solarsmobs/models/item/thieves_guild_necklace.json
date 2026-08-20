@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "solarsmobs:item/thieves_guild_necklace"
+    "layer0": "solarsmobs:item/equippables/thieves_guild_necklace"
   }
 }

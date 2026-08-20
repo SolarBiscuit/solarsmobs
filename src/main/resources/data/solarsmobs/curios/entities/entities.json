@@ -1,10 +1,13 @@
 {
   "entities": [
-    "minecraft:player"
+    "minecraft:player",
+    "solarsmobs:femboy"
   ],
   "slots": [
     "necklace",
     "charm",
-    "ring"
+    "ring",
+    "back",
+    "head"
   ]
 }

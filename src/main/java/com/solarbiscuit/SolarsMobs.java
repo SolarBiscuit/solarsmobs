@@ -1,20 +1,15 @@
 package com.solarbiscuit;
 
-import com.solarbiscuit.entity.endwarrior.EndWarriorEntity;
-import com.solarbiscuit.entity.femboy.FemboyEntity;
-import com.solarbiscuit.entity.templar.TemplarEntity;
-import com.solarbiscuit.entity.thief.ThiefEntity;
+import com.solarbiscuit.compat.sophisticatedbackpacks.FemboyBackpackCompat;
+import com.solarbiscuit.compat.sophisticatedstorage.FemboyStorageCompat;
+import com.solarbiscuit.registry.ModBiomeModifiers;
+import com.solarbiscuit.registry.MobCatalog;
+import com.solarbiscuit.registry.MobEntry;
 import com.solarbiscuit.registry.ModCreativeTabs;
 import com.solarbiscuit.registry.ModEntities;
 import com.solarbiscuit.registry.ModFluids;
 import com.solarbiscuit.registry.ModItems;
 import com.solarbiscuit.registry.ModMenuTypes;
-import net.minecraft.world.Difficulty;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.SpawnPlacements;
-import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -35,6 +30,9 @@ public class SolarsMobs {
         ModFluids.FLUIDS.register(modEventBus);
         ModMenuTypes.MENUS.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
+        ModBiomeModifiers.SERIALIZERS.register(modEventBus);
+        FemboyStorageCompat.register(modEventBus);
+        FemboyBackpackCompat.register(modEventBus);
 
         modEventBus.addListener(ModEntities::addCreative);
         modEventBus.addListener(this::registerAttributes);
@@ -42,42 +40,14 @@ public class SolarsMobs {
     }
 
     private void registerAttributes(EntityAttributeCreationEvent event) {
-        event.put(ModEntities.FEMBOY.get(), FemboyEntity.createAttributes().build());
-        event.put(ModEntities.THIEF.get(), ThiefEntity.createAttributes().build());
-        event.put(ModEntities.TEMPLAR.get(), TemplarEntity.createAttributes().build());
-        event.put(ModEntities.END_WARRIOR.get(), EndWarriorEntity.createAttributes().build());
+        for (MobEntry<?> mob : MobCatalog.ALL) {
+            mob.registerAttributes(event);
+        }
     }
 
     private void registerSpawnPlacements(SpawnPlacementRegisterEvent event) {
-        event.register(
-                ModEntities.FEMBOY.get(),
-                SpawnPlacements.Type.ON_GROUND,
-                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                Animal::checkAnimalSpawnRules,
-                SpawnPlacementRegisterEvent.Operation.OR
-        );
-        event.register(
-                ModEntities.THIEF.get(),
-                SpawnPlacements.Type.ON_GROUND,
-                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                Monster::checkMonsterSpawnRules,
-                SpawnPlacementRegisterEvent.Operation.OR
-        );
-        event.register(
-                ModEntities.TEMPLAR.get(),
-                SpawnPlacements.Type.ON_GROUND,
-                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                Mob::checkMobSpawnRules,
-                SpawnPlacementRegisterEvent.Operation.OR
-        );
-        event.register(
-                ModEntities.END_WARRIOR.get(),
-                SpawnPlacements.Type.ON_GROUND,
-                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                (type, level, spawnType, pos, random) ->
-                        level.getDifficulty() != Difficulty.PEACEFUL
-                                && Mob.checkMobSpawnRules(type, level, spawnType, pos, random),
-                SpawnPlacementRegisterEvent.Operation.OR
-        );
+        for (MobEntry<?> mob : MobCatalog.ALL) {
+            mob.registerSpawn(event);
+        }
     }
 }

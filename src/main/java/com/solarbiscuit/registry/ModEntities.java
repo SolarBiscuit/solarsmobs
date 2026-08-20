@@ -1,6 +1,8 @@
 package com.solarbiscuit.registry;
 
 import com.solarbiscuit.SolarsMobs;
+import com.solarbiscuit.entity.archer.ArcherEntity;
+import com.solarbiscuit.entity.arborist.ArboristEntity;
 import com.solarbiscuit.entity.endwarrior.EndWarriorEntity;
 import com.solarbiscuit.entity.femboy.FemboyEntity;
 import com.solarbiscuit.entity.templar.TemplarEntity;
@@ -8,8 +10,6 @@ import com.solarbiscuit.entity.thief.ThiefEntity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.Item;
-import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -19,9 +19,6 @@ import net.minecraftforge.registries.RegistryObject;
 public class ModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES =
             DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, SolarsMobs.MOD_ID);
-
-    public static final DeferredRegister<Item> ITEMS =
-            DeferredRegister.create(ForgeRegistries.ITEMS, SolarsMobs.MOD_ID);
 
     public static final RegistryObject<EntityType<FemboyEntity>> FEMBOY =
             ENTITY_TYPES.register("femboy", () -> EntityType.Builder.of(FemboyEntity::new, MobCategory.CREATURE)
@@ -43,29 +40,25 @@ public class ModEntities {
                     .sized(0.6F, 1.8F)
                     .build(SolarsMobs.MOD_ID + ":end_warrior"));
 
-    public static final RegistryObject<Item> FEMBOY_SPAWN_EGG = ITEMS.register("femboy_spawn_egg",
-            () -> new ForgeSpawnEggItem(FEMBOY, 0xFFB6C1, 0xFFFFFF, new Item.Properties()));
+    public static final RegistryObject<EntityType<ArcherEntity>> ARCHER =
+            ENTITY_TYPES.register("archer", () -> EntityType.Builder.of(ArcherEntity::new, MobCategory.CREATURE)
+                    .sized(0.6F, 1.8F)
+                    .build(SolarsMobs.MOD_ID + ":archer"));
 
-    public static final RegistryObject<Item> THIEF_SPAWN_EGG = ITEMS.register("thief_spawn_egg",
-            () -> new ForgeSpawnEggItem(THIEF, 0x5C4033, 0x1A1A1A, new Item.Properties()));
-
-    public static final RegistryObject<Item> TEMPLAR_SPAWN_EGG = ITEMS.register("templar_spawn_egg",
-            () -> new ForgeSpawnEggItem(TEMPLAR, 0xF0F0F0, 0xB22222, new Item.Properties()));
-
-    public static final RegistryObject<Item> END_WARRIOR_SPAWN_EGG = ITEMS.register("end_warrior_spawn_egg",
-            () -> new ForgeSpawnEggItem(END_WARRIOR, 0x1B0A2A, 0xC084FC, new Item.Properties()));
+    public static final RegistryObject<EntityType<ArboristEntity>> ARBORIST =
+            ENTITY_TYPES.register("arborist", () -> EntityType.Builder.of(ArboristEntity::new, MobCategory.CREATURE)
+                    .sized(0.6F, 1.8F)
+                    .build(SolarsMobs.MOD_ID + ":arborist"));
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);
-        ITEMS.register(eventBus);
     }
 
     public static void addCreative(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
-            event.accept(FEMBOY_SPAWN_EGG.get());
-            event.accept(THIEF_SPAWN_EGG.get());
-            event.accept(TEMPLAR_SPAWN_EGG.get());
-            event.accept(END_WARRIOR_SPAWN_EGG.get());
+            for (MobEntry<?> mob : MobCatalog.ALL) {
+                event.accept(mob.spawnEgg().get());
+            }
         }
         if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS) {
             event.accept(ModItems.FEMBOY_MILK_BUCKET.get());

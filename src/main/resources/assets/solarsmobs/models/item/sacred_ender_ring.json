@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "solarsmobs:item/sacred_ender_ring"
+    "layer0": "solarsmobs:item/equippables/sacred_ender_ring"
   }
 }

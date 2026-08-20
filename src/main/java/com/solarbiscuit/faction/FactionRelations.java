@@ -50,6 +50,18 @@ public final class FactionRelations {
         return faction == Faction.EVIL || faction == Faction.DEMONIC;
     }
 
+    /** Vanilla-style hostiles (zombies, skeletons, etc.), excluding other Solar's Mobs friendlies. */
+    public static boolean isMonsterFoe(LivingEntity target) {
+        if (target == null || target instanceof Player || !target.isAlive()) {
+            return false;
+        }
+        if (target instanceof Factioned factioned) {
+            Faction faction = factioned.getFaction();
+            return faction == Faction.EVIL || faction == Faction.DEMONIC;
+        }
+        return target instanceof net.minecraft.world.entity.monster.Enemy;
+    }
+
     public static boolean sameOwner(LivingEntity a, LivingEntity b) {
         UUID ownerA = ownerId(a);
         UUID ownerB = ownerId(b);

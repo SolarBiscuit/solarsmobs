@@ -1,112 +1,54 @@
-package com.solarbiscuit.registry;
+package com.solarbiscuit.event;
 
 import com.solarbiscuit.SolarsMobs;
 import com.solarbiscuit.advancement.ModAdvancements;
 import com.solarbiscuit.entity.endwarrior.EndWarriorEntity;
-import com.solarbiscuit.entity.templar.TemplarEntity;
-import com.solarbiscuit.entity.thief.ThiefEntity;
 import com.solarbiscuit.faction.Faction;
 import com.solarbiscuit.faction.FactionRelations;
 import com.solarbiscuit.faction.Factioned;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.monster.Endermite;
 import net.minecraft.world.entity.monster.Shulker;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.EnderManAngerEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 
 @Mod.EventBusSubscriber(modid = SolarsMobs.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class ModEvents {
-    private static final int ABSORPTION_TICKS = 1200;
+public class EnderRingEvents {
+    public static final String ENDERMAN_OVERHAUL_ID = "endermanoverhaul";
     private static final int BRAVEHEART_WINDOW = 600;
 
     @SubscribeEvent
-    public static void onDrinkFromModdedBucket(PlayerInteractEvent.RightClickItem event) {
-        var player = event.getEntity();
-        var stack = event.getItemStack();
-
-        stack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).ifPresent(handler -> {
-            if (handler.getFluidInTank(0).getFluid() == ModFluids.FEMBOY_MILK.get() && handler.getFluidInTank(0).getAmount() >= 1000) {
-                if (!player.level().isClientSide()) {
-                    player.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, ABSORPTION_TICKS, 0));
-                    player.curePotionEffects(new ItemStack(Items.MILK_BUCKET));
-
-                    if (!player.isCreative()) {
-                        handler.drain(1000, IFluidHandler.FluidAction.EXECUTE);
-                        player.setItemInHand(event.getHand(), handler.getContainer());
-                    }
-                }
-
-                player.playSound(SoundEvents.GENERIC_DRINK, 1.0F, 1.0F);
-                event.setCancellationResult(net.minecraft.world.InteractionResult.SUCCESS);
-                event.setCanceled(true);
-            }
-        });
-    }
-
-    @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (event.phase != TickEvent.Phase.END || !(event.player instanceof ServerPlayer player) || player.tickCount % 20 != 0) {
+        if (event.phase != TickEvent.Phase.END || !(event.player instanceof ServerPlayer player)) {
+            return;
+        }
+
+        if (FactionRelations.hasSacredEnderRing(player)) {
+            calmEndermen(player);
+        }
+
+        if (player.tickCount % 20 != 0) {
             return;
         }
 
         if (FactionRelations.hasSacredEnderRing(player) && player.level().dimension() == Level.END) {
             player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 40, 0, true, false, true));
-        }
-
-        AABB nearby = player.getBoundingBox().inflate(5.0D);
-        boolean sawModMob = false;
-        boolean nearThiefWithNecklace = false;
-        boolean nearTemplarWithCross = false;
-        boolean nearEndWarrior = false;
-
-        for (Entity entity : player.level().getEntities(player, nearby, ModEvents::isSolarsMob)) {
-            double distance = player.distanceTo(entity);
-            if (distance <= 4.0D) {
-                sawModMob = true;
-            }
-            if (entity instanceof ThiefEntity && distance <= 5.0D && FactionRelations.hasThievesGuildProtection(player)) {
-                nearThiefWithNecklace = true;
-            }
-            if (entity instanceof TemplarEntity && distance <= 4.0D && FactionRelations.hasHolyCross(player)) {
-                nearTemplarWithCross = true;
-            }
-            if (entity instanceof EndWarriorEntity && distance <= 4.0D) {
-                nearEndWarrior = true;
-            }
-        }
-
-        if (sawModMob) {
-            ModAdvancements.award(player, ModAdvancements.WHOLE_NEW_WORLD, "near_mob");
-        }
-        if (nearThiefWithNecklace) {
-            ModAdvancements.award(player, ModAdvancements.BROTHERHOOD, "near_thief");
-        }
-        if (nearTemplarWithCross) {
-            ModAdvancements.award(player, ModAdvancements.DEFENDER_OF_THE_FAITH, "near_templar");
-        }
-        if (nearEndWarrior) {
-            ModAdvancements.award(player, ModAdvancements.NEW_GUARD, "near_end_warrior");
         }
     }
 
@@ -168,15 +110,43 @@ public class ModEvents {
         player.getPersistentData().put(ServerPlayer.PERSISTED_NBT_TAG, persisted);
     }
 
+    private static void calmEndermen(Player player) {
+        AABB box = player.getBoundingBox().inflate(64.0D);
+        for (Mob mob : player.level().getEntitiesOfClass(Mob.class, box, EnderRingEvents::isEndermanLike)) {
+            boolean targetingPlayer = mob.getTarget() == player
+                    || mob.getLastHurtByMob() == player
+                    || (mob instanceof NeutralMob neutral
+                    && player.getUUID().equals(neutral.getPersistentAngerTarget()));
+            if (!targetingPlayer) {
+                continue;
+            }
+            if (mob instanceof NeutralMob neutral) {
+                neutral.stopBeingAngry();
+            }
+            if (mob.getTarget() == player) {
+                mob.setTarget(null);
+            }
+            if (mob.getLastHurtByMob() == player) {
+                mob.setLastHurtByMob(null);
+            }
+        }
+    }
+
+    public static boolean isEndermanLike(LivingEntity entity) {
+        if (entity instanceof EnderMan) {
+            return true;
+        }
+        var key = ForgeRegistries.ENTITY_TYPES.getKey(entity.getType());
+        return key != null && ENDERMAN_OVERHAUL_ID.equals(key.getNamespace());
+    }
+
     private static boolean isEndRelated(LivingEntity entity) {
         if (entity instanceof EnderMan || entity instanceof EnderDragon || entity instanceof Endermite || entity instanceof Shulker) {
             return true;
         }
+        if (isEndermanLike(entity)) {
+            return true;
+        }
         return entity instanceof Factioned factioned && factioned.getFaction() == Faction.ENDER;
-    }
-
-    private static boolean isSolarsMob(Entity entity) {
-        var key = ForgeRegistries.ENTITY_TYPES.getKey(entity.getType());
-        return key != null && SolarsMobs.MOD_ID.equals(key.getNamespace()) && entity.getType() != EntityType.PLAYER;
     }
 }

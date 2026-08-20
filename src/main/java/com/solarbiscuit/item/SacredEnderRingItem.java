@@ -1,6 +1,8 @@
 package com.solarbiscuit.item;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.monster.EnderMan;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -12,6 +14,11 @@ import java.util.List;
 public class SacredEnderRingItem extends Item {
     public SacredEnderRingItem(Properties properties) {
         super(properties);
+    }
+
+    @Override
+    public boolean isEnderMask(ItemStack stack, Player player, EnderMan enderman) {
+        return true;
     }
 
     @Override

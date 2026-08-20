@@ -28,6 +28,11 @@ public class ModLootHandler {
             new ResourceLocation(SIMPLE_HATS_ID, "hatbag_uncommon");
     private static final ResourceLocation END_WARRIOR_LOOT =
             new ResourceLocation(SolarsMobs.MOD_ID, "entities/end_warrior");
+    private static final ResourceLocation ARCHER_LOOT =
+            new ResourceLocation(SolarsMobs.MOD_ID, "entities/archer");
+    private static final String SUPPLEMENTARIES_ID = "supplementaries";
+    private static final ResourceLocation QUIVER =
+            new ResourceLocation(SUPPLEMENTARIES_ID, "quiver");
 
     @SubscribeEvent
     public static void onLootTableLoad(LootTableLoadEvent event) {
@@ -47,6 +52,17 @@ public class ModLootHandler {
         }
         if (END_WARRIOR_LOOT.equals(id)) {
             addSimplyHatsPool(event, HATBAG_UNCOMMON, 0.20F, "solarsmobs_simplyhats_uncommon");
+        }
+        if (ARCHER_LOOT.equals(id) && ModList.get().isLoaded(SUPPLEMENTARIES_ID)) {
+            Item quiver = ForgeRegistries.ITEMS.getValue(QUIVER);
+            if (quiver != null && quiver != Items.AIR) {
+                event.getTable().addPool(LootPool.lootPool()
+                        .name("solarsmobs_supplementaries_quiver")
+                        .setRolls(ConstantValue.exactly(1.0F))
+                        .add(LootItem.lootTableItem(quiver)
+                                .when(LootItemRandomChanceCondition.randomChance(0.05F)))
+                        .build());
+            }
         }
     }
 

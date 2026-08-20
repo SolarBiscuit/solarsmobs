@@ -1,5 +1,7 @@
 package com.solarbiscuit.inventory.femboy;
 
+import com.solarbiscuit.compat.curios.CuriosCompat;
+import com.solarbiscuit.compat.sophisticatedbackpacks.FemboyBackpackCompat;
 import com.solarbiscuit.entity.femboy.FemboyEntity;
 import com.solarbiscuit.registry.ModMenuTypes;
 import net.minecraft.world.Container;
@@ -8,21 +10,15 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.SwordItem;
-import net.minecraft.world.item.TieredItem;
-import net.minecraft.world.item.BowItem;
-import net.minecraft.world.item.CrossbowItem;
-import net.minecraft.world.item.TridentItem;
 
 public class FemboyMenu extends AbstractContainerMenu {
     private final FemboyEntity femboy;
     private final int containerRows;
     private final Container targetInv;
-    private final Container equipWrapper;
+    private final FemboyEquipmentContainer equipWrapper;
 
     public FemboyMenu(int id, Inventory playerInventory, FemboyEntity entity, boolean isLarge) {
         super(ModMenuTypes.FEMBOY_MENU.get(), id);
@@ -36,40 +32,20 @@ public class FemboyMenu extends AbstractContainerMenu {
             this.targetInv = actualInv;
         }
 
-        this.equipWrapper = new SimpleContainer(6) {
-            @Override
-            public void setItem(int slot, ItemStack stack) {
-                EquipmentSlot type = EquipmentSlot.values()[slot];
-                femboy.setItemSlot(type, stack);
-            }
-            @Override
-            public ItemStack getItem(int slot) {
-                return femboy.getItemBySlot(EquipmentSlot.values()[slot]);
-            }
-            @Override
-            public ItemStack removeItem(int slot, int amount) {
-                ItemStack stack = getItem(slot);
-                if (!stack.isEmpty()) {
-                    setItem(slot, ItemStack.EMPTY);
-                }
-                return stack;
-            }
-            @Override
-            public void setChanged() { }
-        };
+        this.equipWrapper = new FemboyEquipmentContainer(femboy);
 
         int equipX = isLarge ? 9 : 27;
         int invX = 59;
         int armorStartY = 7; 
         int handsStartY = 90; 
 
-        this.addSlot(new Slot(equipWrapper, 5, equipX, armorStartY));       
-        this.addSlot(new Slot(equipWrapper, 4, equipX, armorStartY + 18));  
-        this.addSlot(new Slot(equipWrapper, 3, equipX, armorStartY + 36));  
-        this.addSlot(new Slot(equipWrapper, 2, equipX, armorStartY + 54));  
+        this.addSlot(new FemboyEquipmentContainer.GearSlot(equipWrapper, 5, equipX, armorStartY, EquipmentSlot.HEAD));
+        this.addSlot(new FemboyEquipmentContainer.GearSlot(equipWrapper, 4, equipX, armorStartY + 18, EquipmentSlot.CHEST));
+        this.addSlot(new FemboyEquipmentContainer.GearSlot(equipWrapper, 3, equipX, armorStartY + 36, EquipmentSlot.LEGS));
+        this.addSlot(new FemboyEquipmentContainer.GearSlot(equipWrapper, 2, equipX, armorStartY + 54, EquipmentSlot.FEET));
         
-        this.addSlot(new Slot(equipWrapper, 0, equipX, handsStartY));       
-        this.addSlot(new Slot(equipWrapper, 1, equipX, handsStartY + 30));  
+        this.addSlot(new FemboyEquipmentContainer.GearSlot(equipWrapper, 0, equipX, handsStartY, EquipmentSlot.MAINHAND));
+        this.addSlot(new FemboyEquipmentContainer.GearSlot(equipWrapper, 1, equipX, handsStartY + 30, EquipmentSlot.OFFHAND));  
 
         for (int j = 0; j < this.containerRows; ++j) {
             for (int k = 0; k < 9; ++k) {
@@ -87,10 +63,36 @@ public class FemboyMenu extends AbstractContainerMenu {
         for (int i1 = 0; i1 < 9; ++i1) {
             this.addSlot(new Slot(playerInventory, i1, invX + i1 * 18, 143 + yOffset));
         }
+
+        if (CuriosCompat.isLoaded()) {
+            this.addSlot(CuriosCompat.createSlot(entity, CuriosCompat.BACK_SLOT, equipX, handsStartY + 52,
+                    CuriosCompat.emptyIcon(CuriosCompat.BACK_SLOT)));
+            this.addSlot(CuriosCompat.createSlot(entity, CuriosCompat.HEAD_SLOT, equipX, handsStartY + 70,
+                    CuriosCompat.emptyIcon(CuriosCompat.HEAD_SLOT)));
+        } else {
+            Slot backSlot = FemboyBackpackCompat.createSlot(entity, equipX, handsStartY + 52);
+            if (backSlot != null) {
+                this.addSlot(backSlot);
+            }
+        }
+    }
+
+    public FemboyEntity getFemboy() {
+        return this.femboy;
     }
 
     public int getRowCount() {
         return this.containerRows;
+    }
+
+    @Override
+    public void clicked(int slotId, int button, ClickType clickType, Player player) {
+        if (slotId >= 0 && slotId < this.slots.size() && button == 1 && clickType == ClickType.PICKUP) {
+            if (FemboyBackpackCompat.handleClick(this.slots.get(slotId), player)) {
+                return;
+            }
+        }
+        super.clicked(slotId, button, clickType, player);
     }
 
     @Override
@@ -115,27 +117,17 @@ public class FemboyMenu extends AbstractContainerMenu {
                 }
             } else {
                 boolean movedToEquip = false;
-                EquipmentSlot equipSlot = Mob.getEquipmentSlotForItem(slotStack);
-                
-                for (int i = 0; i < 6; i++) {
+                boolean lightOrShield = FemboyEquipmentContainer.isHandheldLight(slotStack)
+                        || FemboyEquipmentContainer.isShield(slotStack);
+                int[] order = lightOrShield
+                        ? new int[]{5, 0, 1, 2, 3, 4}
+                        : new int[]{0, 1, 2, 3, 4, 5};
+                for (int i : order) {
                     Slot s = this.slots.get(i);
-                    int internalId = s.getSlotIndex();
-                    
-                    if ((equipSlot == EquipmentSlot.HEAD && internalId == 5) ||
-                        (equipSlot == EquipmentSlot.CHEST && internalId == 4) ||
-                        (equipSlot == EquipmentSlot.LEGS && internalId == 3) ||
-                        (equipSlot == EquipmentSlot.FEET && internalId == 2) ||
-                        (slotStack.is(Items.SHIELD) && internalId == 1) ||
-                        ((slotStack.getItem() instanceof TieredItem || 
-                          slotStack.getItem() instanceof SwordItem || 
-                          slotStack.getItem() instanceof BowItem || 
-                          slotStack.getItem() instanceof CrossbowItem || 
-                          slotStack.getItem() instanceof TridentItem) && internalId == 0)) {
-                        
-                        if (!s.hasItem()) {
-                            movedToEquip = this.moveItemStackTo(slotStack, i, i + 1, false);
-                            break;
-                        }
+                    if (!s.hasItem() && s.mayPlace(slotStack)
+                            && this.moveItemStackTo(slotStack, i, i + 1, false)) {
+                        movedToEquip = true;
+                        break;
                     }
                 }
 

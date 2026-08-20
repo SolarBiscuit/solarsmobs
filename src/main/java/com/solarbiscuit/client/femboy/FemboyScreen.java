@@ -11,6 +11,7 @@ import net.minecraft.world.entity.player.Inventory;
 public class FemboyScreen extends AbstractContainerScreen<FemboyMenu> {
     private static final ResourceLocation SMALL_TEXTURE = new ResourceLocation(SolarsMobs.MOD_ID, "textures/gui/femboy_inventory_small.png");
     private static final ResourceLocation LARGE_TEXTURE = new ResourceLocation(SolarsMobs.MOD_ID, "textures/gui/femboy_inventory_large.png");
+    private static final ResourceLocation EMPTY_SWORD = new ResourceLocation("minecraft", "textures/item/iron_sword.png");
 
     public FemboyScreen(FemboyMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
@@ -38,6 +39,9 @@ public class FemboyScreen extends AbstractContainerScreen<FemboyMenu> {
         int drawWidth = 256; 
         
         guiGraphics.blit(texture, i, j, 0, 0, drawWidth, this.imageHeight);
+        if (this.menu.slots.size() > 4 && !this.menu.slots.get(4).hasItem()) {
+            guiGraphics.blit(EMPTY_SWORD, i + this.menu.slots.get(4).x, j + this.menu.slots.get(4).y, 0, 0, 16, 16, 16, 16);
+        }
     }
 
     @Override

@@ -69,3 +69,42 @@ displayTest = "IGNORE_ALL_VERSION"
     versionRange="[0,)"
     ordering="NONE"
     side="BOTH"
+
+# Optional Enderman Overhaul — Sacred Ender Ring also calms its Endermen
+[[dependencies.${mod_id}]]
+    modId="endermanoverhaul"
+    mandatory=false
+    versionRange="[0,)"
+    ordering="NONE"
+    side="BOTH"
+
+# Optional Supplementaries — Archers can drop a quiver
+[[dependencies.${mod_id}]]
+    modId="supplementaries"
+    mandatory=false
+    versionRange="[0,)"
+    ordering="NONE"
+    side="BOTH"
+
+# Optional Sophisticated Core / Storage — tamed Femboy internal chest uses SS GUI when present
+[[dependencies.${mod_id}]]
+    modId="sophisticatedcore"
+    mandatory=false
+    versionRange="[0,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="sophisticatedstorage"
+    mandatory=false
+    versionRange="[0,)"
+    ordering="AFTER"
+    side="BOTH"
+
+# Optional Sophisticated Backpacks — tamed Femboy Curios back slot
+[[dependencies.${mod_id}]]
+    modId="sophisticatedbackpacks"
+    mandatory=false
+    versionRange="[0,)"
+    ordering="AFTER"
+    side="BOTH"

@@ -1,10 +1,12 @@
 # Assigned when a femboy is tamed (one name picked at random).
 Aiko
 Aster
+Felix
 Blossom
 Clover
 Daisy
 Ember
+Milo
 Fawn
 Ginger
 Hazel
@@ -17,6 +19,7 @@ Nico
 Olive
 Peach
 Quinn
+Rowan
 Rosie
 Sage
 Taffy
@@ -40,19 +43,23 @@ Misty
 Nectar
 Opal
 Pip
+Scarlet
 Ruby
 Sunny
 Tulip
 Velvet
 Willow
 Yarn
+Blue
 Zephyr
 Angel
+Salem
 Bambi
 Candy
 Dew
 Ellie
 Faye
+Phoenix
 Glory
 Heart
 Ivy

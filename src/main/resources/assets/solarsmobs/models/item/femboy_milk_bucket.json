@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "solarsmobs:item/femboy_milk_bucket"
+    "layer0": "solarsmobs:item/misc/femboy_milk_bucket"
   }
 }

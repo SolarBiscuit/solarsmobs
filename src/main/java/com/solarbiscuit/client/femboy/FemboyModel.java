@@ -13,7 +13,7 @@ public class FemboyModel extends HumanoidModel<FemboyEntity> {
     public void setupAnim(FemboyEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks,
                           float netHeadYaw, float headPitch) {
         boolean sitting = entity.isInSittingPose();
-        this.crouching = false;
+        this.crouching = entity.isCrouching() && !sitting;
         this.riding = sitting || entity.isPassenger();
         super.setupAnim(entity, sitting ? 0.0F : limbSwing, sitting ? 0.0F : limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
         if (sitting) {

@@ -22,11 +22,15 @@ public class FemboyRenderer extends HumanoidMobRenderer<FemboyEntity, FemboyMode
                 new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)),
                 new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR)),
                 context.getModelManager()));
+        if (com.solarbiscuit.compat.curios.CuriosCompat.isLoaded()) {
+            com.solarbiscuit.compat.curios.FemboyCuriosClient.addLayers(this);
+        }
+        com.solarbiscuit.compat.simplehats.SimpleHatsCompat.addHatLayer(this);
     }
 
     @Override
     public void render(FemboyEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
-        this.model.crouching = false;
+        this.model.crouching = entity.isCrouching() && !entity.isInSittingPose();
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
     }
 
